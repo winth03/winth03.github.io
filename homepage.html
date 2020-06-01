@@ -1,0 +1,56 @@
+<html>
+<head>
+    <title>Learning with Weeaboos</title>
+    <meta charset="utf-8">
+    <link rel="icon" href="img/icon.jpg">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <ul class="nav">
+        <li class="active"><a href="homepage.html">Homepage</a></li>
+        <li><a href="introduction.html">Introduction</a></li>
+        <li><a href="hiragana.html">Hiragana</a></li>
+        <li><a href="katakana.html">Katakana</a></li>
+        <li><a href="kanji.html">Kanji</a></li>
+        <li><a href="vocab.html">Vocabulary</a></li>
+        <div class="dropdown">
+            <button class="dropbtn"><a href="conversation.html">Conversations</a></button>
+            <div class="dropdown-content">
+                <a href="conversation.html">Conversation1</a>
+                <a href="conversation2.html">Conversation2</a>
+                <a href="conversation3.html">Conversation3</a>
+            </div>
+        </div>
+        <center><img src="img/umu.gif" alt="umu" width="100" height="100" style="margin-top: 50; cursor: pointer;" onclick="document.getElementById('oof').play();" title="play some song">
+        <img src="img/umu.png" alt="umu" width="100" height="100" style="margin-top: 50; cursor: pointer;" onclick="document.getElementById('oof').pause();" title="pause the song"></center>
+    </ul>
+    <div class="content">
+        <h1><center>Our Homepage</center></h1>
+	    <img src="img/WinPic.jpg" alt="win photo" width="350" height="450" id="img">
+	   <h3 title="This is my name." id="name">Nutpapop Yasawut</h3>
+	   <h3 id="name">Win</h3>
+	   <h2>Age: 14 years old</h2>
+	   <h2>Birth Date: 9 April 2004</h2>
+	   <h2>School: Chonrasadornumrung School</h2>
+	   <h2 style="color:red" title="Astolfo Best Waifu">Motto: Just do it!</h2>
+    </div>
+    <div class="content">
+        <marquee direction="right" scrollamount="15">
+        <img src="img/nyancat.gif" width="250" height="100" title="Nyan Nyan" onmouseover="this.parentNode.stop()" onmouseout="this.parentNode.start()">
+        </marquee>
+    </div>
+    <div class="content">
+        <img src="img/BestPic.jpg" alt="best photo" width="350" height="450" id="img">
+        <h3 id="name">Nut Sittichoketum</h3>
+	    <h3 id="name">Best</h3>
+	    <h2>Age: 14 years old</h2>
+	    <h2>Birth Date: 22 March 2004</h2>
+	    <h2>School: Chonrasadornumrung School</h2>
+        <h2 style="color:red">Motto: Don't do everything today or tomorrow you will have nothing to do.</h2>
+    </div>
+    <audio id="oof">
+        <source src="FateExtra%20CCC%20OST%20-%20Saber%20Everything%20is%20On%20Her%20Hand%20(ver.%202)%20Extended.mp3" type="audio/mpeg">
+    Your Browser Doesn't Support Audio
+    </audio>
+</body>
+</html>
