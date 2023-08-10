@@ -1,0 +1,50 @@
+<html>
+<head>
+    <title>Learning with Weeaboos</title>
+    <meta charset="utf-8">
+    <link rel="icon" href="img/icon.jpg">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <ul class="nav">
+        <li><a href="index.html">Homepage</a></li>
+        <li><a href="introduction.html">Introduction</a></li>
+        <li><a href="hiragana.html">Hiragana</a></li>
+        <li><a href="katakana.html">Katakana</a></li>
+        <li class="active"><a href="kanji.html">Kanji</a></li>
+        <li><a href="vocab.html">Vocabulary</a></li>
+        <div class="dropdown">
+            <button class="dropbtn"><a href="conversation.html">Conversations</a></button>
+            <div class="dropdown-content">
+                <a href="conversation.html">Conversation1</a>
+                <a href="conversation2.html">Conversation2</a>
+                <a href="conversation3.html">Conversation3</a>
+            </div>
+        </div>
+        <center><img src="img/umu.gif" alt="umu" width="100" height="100" style="margin-top: 50; cursor: pointer;" onclick="document.getElementById('oof').play();" title="play some song">
+        <img src="img/umu.png" alt="umu" width="100" height="100" style="margin-top: 50; cursor: pointer;" onclick="document.getElementById('oof').pause();" title="pause the song"></center>
+    </ul>
+    <div class="content2">
+        <h1><center>Kanji</center></h1>
+        <p>Kanji (漢字; [kandʑi]) are the adopted logographic Chinese characters that are used in the Japanese writing system. They are used alongside hiragana and katakana. The Japanese term kanji for the Chinese characters literally means "Han characters". It is written with the same term and characters in the Chinese language to refer to the character writing system, Hanzi (漢字)</p>
+        <p>Kanji has two kind of pronunciations which called Onyomi (音読み) and Kunyomi (訓読み). The first one came from china with the Kanji character and the second one was made in Japan. After all, Kanji has multiple pronunciations and it makes more difficult to master for learners.</p>
+        <p id="box">*The examples of Onyomi and Kunyomi pronunciations are:<br>
+        水 means Water read in Onyomi as すい(sui) and read in Kunyomi as みず(mi zu).<br>
+        火 means Fire read in Onyomi as か(ka) and read in Kunyomi as ひ(hi).</p>
+        <h3>Example Words</h3>
+        <center><table>
+            <tr><td>Kanji</td><td>Romanji</td><td>Meaning</td></tr>
+            <tr><td>火</td><td>hi</td><td>Fire</td></tr>
+            <tr><td>花</td><td>ha na</td><td>Flower</td></tr>
+            <tr><td>犬</td><td>i nu</td><td>Dog</td></tr>
+            <tr><td>男</td><td>o to ko</td><td>Man</td></tr>
+            <tr><td>女</td><td>on na</td><td>Woman</td></tr>
+            <tr><td>小</td><td>ko</td><td>Small</td></tr>
+        </table></center>
+    </div>
+    <audio id="oof">
+        <source src="FateExtra%20CCC%20OST%20-%20Saber%20Everything%20is%20On%20Her%20Hand%20(ver.%202)%20Extended.mp3" type="audio/mpeg">
+    Your Browser Doesn't Support Audio
+    </audio>
+</body>
+</html>
