@@ -1,0 +1,1 @@
+import{a as s}from"./runtime.a8d5aa72.js";import{c as o}from"./size.007424cf.js";import{a5 as r,k as t,u as a}from"./entry.40f94ce2.js";const m=s({type:String,values:o,required:!1}),i=Symbol("size"),p=()=>{const e=r(i,{});return t(()=>a(e.size)||"")};export{i as S,m as a,p as u};

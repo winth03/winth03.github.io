@@ -1,0 +1,1 @@
+import{g as n}from"./get.070bcf83.js";import{b as a}from"./_baseSet.39436bc7.js";function o(e,t,s){return e==null?e:a(e,t,s)}const g=e=>Object.keys(e),i=e=>Object.entries(e),c=(e,t,s)=>({get value(){return n(e,t,s)},set value(r){o(e,t,r)}});export{i as e,c as g,g as k};

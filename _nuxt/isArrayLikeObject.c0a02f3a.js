@@ -1,0 +1,1 @@
+import{s as t,o as s,i as e}from"./_overRest.e23153e9.js";import{h as o}from"./_Uint8Array.4a2b558d.js";import{c as a}from"./isObject.5a18b265.js";function c(r,i){return t(s(r,i,e),r+"")}function f(r){return a(r)&&o(r)}export{c as b,f as i};
