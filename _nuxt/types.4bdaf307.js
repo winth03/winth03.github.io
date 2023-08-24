@@ -1,0 +1,1 @@
+import{D as s,E as n,F as t}from"./entry.95cc8762.js";function r(e){return e==null}const o=e=>e===void 0,u=e=>typeof e=="boolean",a=e=>typeof e=="number",f=e=>!e&&e!==0||s(e)&&e.length===0||n(e)&&!Object.keys(e).length,c=e=>typeof Element>"u"?!1:e instanceof Element,m=e=>r(e),b=e=>t(e)?!Number.isNaN(Number(e)):!1;export{o as a,b,r as c,u as d,c as e,f,m as g,a as i};
