@@ -1,0 +1,1 @@
+import{N as n}from"./entry.79582efe.js";const r=(t,s)=>{if(t.install=o=>{for(const l of[t,...Object.values(s!=null?s:{})])o.component(l.name,l)},s)for(const[o,l]of Object.entries(s))t[o]=l;return t},e=(t,s)=>(t.install=o=>{o.directive(s,t)},t),a=t=>(t.install=n,t);export{a,e as b,r as w};
