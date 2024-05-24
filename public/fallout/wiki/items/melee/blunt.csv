@@ -1,0 +1,22 @@
+"Name","Base Cost","AP","Damage","Crit Chance and type","Special Properties","Carry Load and Strength Req."
+"Police Baton","105c","4 AP","1d6 bludgeoning","20, 1d6.","Sturdy.","Load: 2,STR req: 1"
+"Wrench","140c","4 AP","2d4 bludgeoning","20, 4d4.","Sturdy.","Load: 3,STR req: 2"
+"Crowbar","335c","6 AP","2d10 bludgeoning","20, 4d10.","Weighted. Durable. Defensive. Two Handed.","Load: 18,STR req: 6"
+"Sledgehammer","215c","6 AP","1d12 bludgeoning","20, 3d12,Dazed.","Sturdy. Weighted. Two Handed.","Load: 22,STR req: 7"
+"Baseball Bat","200c","5 AP","3d4 bludgeoning","20, 2d4, pushback 5 ft.","Weighted. Sturdy. Defensive. Two Handed.","Load: 4,STR req: 4"
+"Super Sledge","310c","6 AP","3d12 bludgeoning","20, 3d12.Dazed.","Weighted. Two Handed.","Load: 26,STR req: 8"
+"9 iron","130c","5 AP","1d8 bludgeoning","20. 1d6.Prone.","Weighted. Two Handed.","Load: 4,STR req: 3",
+"Dress cane","115c","4 AP","1d4 bludgeoning","20. 3d4.Prone.","Defensive.","Load: 2,STR req: 2",
+"Lead pipe","130c","5 AP","1d8 bludgeoning","20. 1d6.","Sturdy. Defensive.","Load: 6,STR req: 5",
+"Rolling pin","125c","4 AP","1d6 bludgeoning","20, 2d6.","Weighted. Breakable. Defensive.","Load: 3,STR req: 4",
+"Shovel","255c","4 AP","3d4 bludgeoning or slashing.","20, x3.","Weighted. Two Handed. Defensive.","Load: 8,STR req: 4",
+"Tire iron","100c","4 AP","1d6 bludgeoning","20. 1d4.Prone.","Weighted.","Load: 2,STR req: 2",
+"Pool cue","125c","5 AP","1d6 bludgeoning","20, 3d6.","Weighted. Breakable. Two Handed","Load: 2,STR req: 3",
+"Bone Club","145c","4 AP","1d8 bludgeoning","20, 1d6.","Debilitating. Sturdy.","Load: 2,STR req: 4",
+"Commie Whacker","15c","4 AP","1 bludgeoning","20, +2.","If the target admits they are a communist, the weapon always critically hits.","Load: 2,STR req: 1",
+"Paddle Ball","11c","2 AP","1 bludgeoning","20. +1.","Fragile.","Load: 1,STR req: 2",
+"Board","115c","4 AP","1d8 bludgeoning","20, 1d8.","Weighted. Breakable. Two Handed.","Load: 10,STR req: 5",
+"Board with a nail","125c","4 AP","1d8 + 1 bludgeoning","20, 1d8.","Weighted. Breakable. Two Handed.","Load: 10,STR req: 5",
+"Protest Sign","50c","5 AP","1d4 bludgeoning","20. Pushed back 5 feet.","Two Handed. Breakable.","Load: 6,STR req: 3",
+"Stop Sign","350c","6 AP","5d8 bludgeoning or slashing.Applies Dazed.","20. x3.","Two Handed. Slow. Reach.","Load: 45,STR req: 9",
+"War Drum","100c","4 AP","1d10 bludgeoning","20, 1d10.Deafens for 1 round.","Two Handed. Breakable.","Load: 8,STR req: 6",

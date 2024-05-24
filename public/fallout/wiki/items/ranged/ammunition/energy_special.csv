@@ -1,0 +1,5 @@
+"Round Type","Effect","Type"
+"Bulk (-50%)","The weapon's damage is reduced by 3. The weapon gains Durable.","Energy Cell, Microfusion Cell"
+"Optimized (x2)","The weapon's damage is increased by 1 and ignores 1 point of DT.","Energy Cell, Microfusion Cell"
+"Overcharged (x3)","The weapon's damage is increased by 2 and ignores 2 points of DT. The weapon gains Breakable.","Energy Cell, Microfusion Cell"
+"Max Charge (x5)","The weapon's damage is increased by 4 and ignores 4 points of DT. The weapon gains Breakable and after every third attack; the weapon gains a level of decay.","Energy Cell, Microfusion Cell"

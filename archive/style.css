@@ -1,0 +1,58 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+svg {
+    overflow:visible;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(1800deg);
+    }
+}
+
+.rolling {
+    animation: spin 1.5s ease-in-out infinite;
+}
+
+.container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.card {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #a6fefe;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dice-roll {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 100px);
+    gap: 1rem;
+    width: 100%;
+    min-height: 150px;
+    padding: 25px;
+    font-size: 2rem;
+    background-color: #2d2d2d;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

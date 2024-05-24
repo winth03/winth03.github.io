@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Dice Roller</title>
+</head>
+
+<body>
+    <div class="container" style="padding: 4rem;">
+        <h1><strong>The Dice Roller</strong></h1>
+        <div class="card" style="padding: 1rem;">
+            <div class="container" style="gap: 2rem; justify-content: start;">
+                <select id="quick-roll" onchange="quickRoll(this)">
+                    <option value="0">Quick Roll</option>
+                </select>
+                <div id="dice-roll" class="dice-roll"></div>
+                <div id="status"></div>
+                <div class="die">
+                    <input id="roll-text" placeholder="Your Roll" type="text" onkeypress="setDice(this)">
+                    <button type="button" onclick="addActiveDice('d4')">d4</button>
+                    <button type="button" onclick="addActiveDice('d6')">d6</button>
+                    <button type="button" onclick="addActiveDice('d8')">d8</button>
+                    <button type="button" onclick="addActiveDice('d10')">d10</button>
+                    <button type="button" onclick="addActiveDice('d12')">d12</button>
+                    <button type="button" onclick="addActiveDice('d20')">d20</button>
+                    <input id="modifier" placeholder="Modifier" type="number" step="1" value="0"
+                        oninput="updateStatus()" />
+                </div>
+                <div class="button-group">
+                    <button id="save" class="button" onclick="saveQuickRoll()">Save</button>
+                    <button id="roll" class="button" onclick="rollDice()">Roll</button>
+                    <button id="reset" class="button" onclick="resetDice()">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
