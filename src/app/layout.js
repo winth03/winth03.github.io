@@ -16,7 +16,7 @@ export default function RootLayout({
   children,
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-bs-theme="dark">
       <body className={inter.className}>
         <Navbar>
           <Container>

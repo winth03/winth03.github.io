@@ -1,67 +1,58 @@
-"use client"
 import base64url from "base64url";
-import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Col, Container, ListGroup, ListGroupItem, Row, TabContainer, TabContent, TabPane } from "react-bootstrap";
-
-function toTitleCase(str) {
-    return str.replace(
-        /\w\S*/g,
-        function (txt) {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        }
-    );
-}
+import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Card, CardBody, CardHeader, Col, Container, Form, ListGroup, ListGroupItem, Row, Spinner, TabContainer, TabContent, TabPane } from "react-bootstrap";
+import { toTitleCase } from "@/app/fallout/wiki/utils";
 
 // Recursive function to create accordion items
-function createAccordionItem(item, key) {
-    var items = [];
-    item.dir.forEach((subitem, index) => {
+function createSubCategoryItem(item, key) {
+    const items = [];
+    Object.keys(item).forEach((subitem, index) => {
         const itemKey = `${key}-dir-${index}`;
+        const listItems = [];
+        item[subitem].forEach((file, index) => {
+            listItems.push(
+                <ListGroupItem action href={`/fallout/wiki/${base64url.encode(file)}`} key={`${itemKey}-${index}`}>
+                    {toTitleCase(file)}
+                </ListGroupItem>
+            );
+        });
         items.push(
-            <AccordionItem eventKey={itemKey} key={itemKey}>
-                <AccordionHeader>
-                    {toTitleCase(subitem.name)}
-                </AccordionHeader>
-                <AccordionBody>
-                    <Accordion>
-                        {
-                            createAccordionItem(subitem, itemKey)
-                        }
-                    </Accordion>
-                </AccordionBody>
-            </AccordionItem>
+            <Col sm={6} key={itemKey}>
+                <Accordion flush>
+                    <AccordionItem eventKey={itemKey}>
+                        <AccordionHeader className="border-top border-bottom">
+                            <h5>{toTitleCase(subitem)}</h5>
+                        </AccordionHeader>
+                        <AccordionBody className="p-0">
+                            <ListGroup variant="flush">
+                                {listItems}
+                            </ListGroup>
+                        </AccordionBody>
+                    </AccordionItem>
+                </Accordion>
+            </Col>
         );
     });
-    var fileListGroup = []
-    item.file.forEach((file, index) => {
-        const itemKey = `${key}-file-${index}`;
-        const name = file.split("\\").pop().split("/").pop().replace("_", " ").split(".")[0];
-
-        fileListGroup.push(
-            <ListGroupItem action href={`/fallout/wiki/${base64url.encode(file)}`} key={itemKey} className="p-3">
-                {toTitleCase(name)}
-            </ListGroupItem>
-        );
-    });
-    if (fileListGroup.length > 0) items.push(
-        <ListGroup key={`${key}-lg`}>
-            {fileListGroup}
-        </ListGroup>
-    );
     return items;
 }
 
 export default function ListGroupTab({ categories }) {
+    if (!categories) return (
+        <Container fluid className="d-flex justify-content-center">
+            <Spinner />
+        </Container>
+    );
+
     return (
-        <TabContainer>
-            <h3>Categories</h3>
+        <TabContainer defaultActiveKey={`#${Object.keys(categories)[0].toLowerCase()}`}>            
+            <h3>Categories</h3>                
             <Row>
                 <Col sm={4}>
                     <ListGroup>
                         {
-                            categories["dir"].map((item, index) => {
+                            Object.keys(categories).map((key, index) => {
                                 return (
-                                    <ListGroupItem action href={`#${item.name.toLowerCase()}`} key={`cat-${index}`}>
-                                        {toTitleCase(item.name)}
+                                    <ListGroupItem action href={`#${key.toLowerCase()}`} key={`cat-${index}`}>
+                                        {toTitleCase(key)}
                                     </ListGroupItem>
                                 );
                             })
@@ -71,17 +62,21 @@ export default function ListGroupTab({ categories }) {
                 <Col sm={8}>
                     <TabContent>
                         {
-                            categories["dir"].map((item, index) => {
+                            Object.keys(categories).map((key, index) => {
                                 return (
-                                    <TabPane eventKey={`#${item.name.toLowerCase()}`} key={`tab-${index}`}>
-                                        <Container>
-                                            <h4>{toTitleCase(item.name)}</h4>
-                                            <Accordion>
-                                                {
-                                                    createAccordionItem(item, `tab-${index}`)
-                                                }
-                                            </Accordion>
-                                        </Container>
+                                    <TabPane eventKey={`#${key.toLowerCase()}`} key={`tab-${index}`}>
+                                        <Card>
+                                            <CardHeader className="bg-color-grey">
+                                                <h4>{toTitleCase(key)}</h4>
+                                            </CardHeader>
+                                            <CardBody className="p-lg-4">
+                                                <Row>
+                                                    {
+                                                        createSubCategoryItem(categories[key], `tab-${index}`)
+                                                    }
+                                                </Row>
+                                            </CardBody>
+                                        </Card>
                                     </TabPane>
                                 );
                             })

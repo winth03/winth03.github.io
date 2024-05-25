@@ -12,6 +12,7 @@ class TurnManager {
         this.APmax = 10;
         this.turnQueue = [[]];
         this.fullRecycle = false;
+        this.loaded = false;
     }
 
     nextTurn() {
@@ -72,6 +73,7 @@ class TurnManager {
             this.fullRecycle = loadedData.fullRecycle;
         }
         else console.log("No data found in local storage.");
+        this.loaded = true;
     }
 }
 
@@ -179,6 +181,19 @@ export default function FalloutCombat() {
     const [APcurrent, setAPcurrent] = useState(TM.inst.calculateAP());
     const [APmax, setAPmax] = useState(TM.inst.APmax);
     const [activeKey, setActiveKey] = useState(TM.inst.currentTurn);
+
+    useEffect(() => {
+        if (!TM.inst.loaded) {
+            console.log("Loading data from local storage.");
+            TM.inst.load();
+            setTM({ inst: TM.inst });
+            setAPcurrent(TM.inst.calculateAP());
+            setActiveKey(TM.inst.currentTurn);
+        } else {
+            console.log("Saving data to local storage.");
+            TM.inst.save();
+        }
+    }, [TM]);
 
     //#region Functions
     function showActionInfo(action) {

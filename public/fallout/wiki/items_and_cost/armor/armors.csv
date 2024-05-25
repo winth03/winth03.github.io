@@ -1,0 +1,7 @@
+"Type","Base Cost","AC","DT","Slots","Load. and STR Req."
+"Cloth","50c",10,0,8,"Load: 5, STR req: 1"
+"Leather","175c",11,1,6,"Load: 15, STR req: 1"
+"Metal","250c",12,0,4,"Load: 20, STR req: 5"
+"Multilayered","275c",10,2,5,"Load: 40, STR req: 3"
+"Ballistic Weave","800c",12,3,2,"Load: 10, STR req: 3"
+"Steel","650c",13,2,2,"Load: 50, STR req: 6"

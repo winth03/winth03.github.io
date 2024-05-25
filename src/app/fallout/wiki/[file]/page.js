@@ -1,37 +1,15 @@
 import CSVTable from "@/components/CSVTable";
 import fs from "fs";
-import path from "path";
 import base64url from "base64url";
 import { Button } from "react-bootstrap";
+import { toTitleCase } from "@/app/fallout/wiki/utils";
 
-function toTitleCase(str) {
-    return str.replace(
-        /\w\S*/g,
-        function (txt) {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        }
-    );
-}
-
-function getAllFiles(directory) {
-    const files = fs.readdirSync(directory);
-    const result = [];
-    for (const file of files) {
-        const fullPath = path.join(directory, file);
-        if (fs.statSync(fullPath).isDirectory()) {
-            result.push(...getAllFiles(fullPath));
-        } else {
-            result.push(fullPath);
-        }
-    }
-    return result;
-}
-
-export async function generateStaticParams() {
-    const WIKI_DIRECTORY = path.join(process.cwd(), "public", "fallout", "wiki");
-    const files = getAllFiles(WIKI_DIRECTORY);
+export async function generateStaticParams() {    
+    const files = await fetch(process.env.URL + "/fallout/wiki/api/files")
+        .then(res => res.json());
+    
     const params = files.map(file => ({
-        file: base64url.encode(file),
+        file: file,
     }));
 
     return params;
