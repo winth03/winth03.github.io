@@ -11,6 +11,30 @@ function toTitleCase(str) {
     );
 }
 
+function getAllFiles(directory) {
+    const files = fs.readdirSync(directory);
+    const result = [];
+    for (const file of files) {
+        const fullPath = path.join(directory, file);
+        if (fs.statSync(fullPath).isDirectory()) {
+            result.push(...getAllFiles(fullPath));
+        } else {
+            result.push(fullPath);
+        }
+    }
+    return result;
+}
+
+export async function generateStaticParams() {
+    const WIKI_DIRECTORY = path.join(process.cwd(), "public", "fallout", "wiki");
+    const files = getAllFiles(WIKI_DIRECTORY);
+
+    return files.map((file) => {
+            file: encodeURIComponent(btoa(file))
+        }
+    );
+}
+
 export default function FalloutWikiItem({ params: { file } }) {
     const filePath = atob(decodeURIComponent(file));
     const fileName = filePath.split("\\").pop().split("/").pop().replace("_", " ").split(".")[0];
