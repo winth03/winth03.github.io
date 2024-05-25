@@ -1,4 +1,5 @@
 "use client"
+import base64url from "base64url";
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Col, Container, ListGroup, ListGroupItem, Row, TabContainer, TabContent, TabPane } from "react-bootstrap";
 
 function toTitleCase(str) {
@@ -36,7 +37,7 @@ function createAccordionItem(item, key) {
         const name = file.split("\\").pop().split("/").pop().replace("_", " ").split(".")[0];
 
         fileListGroup.push(
-            <ListGroupItem action href={`/fallout/wiki/${Buffer.from(file).toString("base64url")}`} key={itemKey} className="p-3">
+            <ListGroupItem action href={`/fallout/wiki/${base64url.encode(file)}`} key={itemKey} className="p-3">
                 {toTitleCase(name)}
             </ListGroupItem>
         );
