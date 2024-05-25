@@ -36,7 +36,7 @@ function createAccordionItem(item, key) {
         const name = file.split("\\").pop().split("/").pop().replace("_", " ").split(".")[0];
 
         fileListGroup.push(
-            <ListGroupItem action href={`/fallout/wiki/${encodeURIComponent(btoa(file))}`} key={itemKey} className="p-3">
+            <ListGroupItem action href={`/fallout/wiki/${Buffer.from(file).toString("base64url")}`} key={itemKey} className="p-3">
                 {toTitleCase(name)}
             </ListGroupItem>
         );

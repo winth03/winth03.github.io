@@ -1,5 +1,6 @@
 import CSVTable from "@/components/CSVTable";
 import fs from "fs";
+import path from "path";
 import { Button } from "react-bootstrap";
 
 function toTitleCase(str) {
@@ -28,15 +29,16 @@ function getAllFiles(directory) {
 export async function generateStaticParams() {
     const WIKI_DIRECTORY = path.join(process.cwd(), "public", "fallout", "wiki");
     const files = getAllFiles(WIKI_DIRECTORY);
+    const params = files.map(file => ({
+        file: Buffer.from(file).toString("base64url"),
+    }));
 
-    return files.map((file) => {
-            file: encodeURIComponent(btoa(file))
-        }
-    );
+    return params;
 }
 
 export default function FalloutWikiItem({ params: { file } }) {
-    const filePath = atob(decodeURIComponent(file));
+
+    const filePath = Buffer.from(file, "base64url").toString();
     const fileName = filePath.split("\\").pop().split("/").pop().replace("_", " ").split(".")[0];
     const csv = fs.readFileSync(filePath, "utf8");
 
