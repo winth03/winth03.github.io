@@ -9,14 +9,33 @@ export default function FalloutWiki() {
 
     useEffect(() => {
         const fetchCategories = async () => {
-            const response = await fetch("/fallout/wiki/api/categories?" + (filter ? new URLSearchParams({
-                filter: filter
-            }) : ""));
+            const response = await fetch("/fallout/wiki/api/categories");
             const data = await response.json();
-            setCategories(data);
+            if (filter) {
+                setCategories(filterCategories(data, filter));
+            } else {
+                setCategories(data);
+            }
         };
         fetchCategories();
     }, [filter]);
+
+    function filterCategories(categories, filter) {
+        const filteredCategories = {};
+        Object.keys(categories).forEach((category) => {
+            const filteredItems = {};
+            Object.keys(categories[category]).forEach((subCategory) => {
+                const filteredSubCategory = categories[category][subCategory].filter((item) => item.toLowerCase().includes(filter.toLowerCase()));
+                if (filteredSubCategory.length > 0) {
+                    filteredItems[subCategory] = filteredSubCategory;
+                }
+            });
+            if (Object.keys(filteredItems).length > 0) {
+                filteredCategories[category] = filteredItems;
+            }
+        });
+        return filteredCategories;
+    }
 
     function applyFilterKeydown(event) {
         if (event.key === "Enter") {
