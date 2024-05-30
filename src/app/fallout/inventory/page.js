@@ -1,17 +1,46 @@
 "use client"
 import { useEffect, useState } from "react";
-import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Button, Card, CardBody, CardHeader, Col, Container, Form, ListGroup, ListGroupItem, Row, Spinner } from "react-bootstrap";
+import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Button, Card, CardBody, CardHeader, Col, Container, Form, ListGroup, ListGroupItem, Row, Spinner, Table } from "react-bootstrap";
 import { toTitleCase } from "../wiki/utils";
+
+const PARSER = {
+    ammunition: {
+        load: (qty) => Math.floor(qty / 10)
+    }
+}
+class InventoryItem {
+    constructor(item, qty, parser) {
+        this.name = item;
+        this.qty = qty;
+        this.parser = PARSER[parser];
+    }
+
+    get load() {
+        return this.parser ? this.parser.load(this.qty) : 0;
+    }
+}
 
 class InventoryManager {
     constructor() {
         this.items = [];
-        this.carryLoad = 0;
         this.loaded = false;
     }
 
-    addItem(item) {
-        this.items.push(item);
+    get carryLoad() {
+        return this.items.reduce((acc, item) => acc + item.load, 0);
+    }
+
+    addItem(item, key) {
+        const itemIndex = this.items.findIndex(i => i.name === item);
+        if (itemIndex === -1) {
+            const keyList = key.split("-").map(e => e.split(".")[0].replace(" ", "_").toLowerCase());
+            // get first key that is in PARSER
+            const parserKey = keyList.find(e => PARSER[e]);
+            this.items.push(new InventoryItem(item, 1, parserKey));
+        } else {
+            this.items[itemIndex].qty++;
+        }
+        console.log(this.items);
     }
 
     removeItem(item) {
@@ -19,12 +48,12 @@ class InventoryManager {
     }
 
     save() {
-        localStorage.setItem('inventory', JSON.stringify(this.items));
+        // localStorage.setItem('inventory', JSON.stringify(this.items));
     }
 
     load() {
-        this.items = JSON.parse(localStorage.getItem('inventory')) || [];
-        this.loaded = true;
+        // this.items = JSON.parse(localStorage.getItem('inventory')) || [];
+        // this.loaded = true;
     }
 }
 
@@ -67,7 +96,7 @@ export default function FalloutInventory() {
                 if (items.toLowerCase().includes(filter)) return items;
             } else throw new Error("Unsupported type: ", typeof items);
         }
-        
+
         fetch('/fallout/api/items')
             .then(res => res.json())
             .then(data => {
@@ -80,7 +109,6 @@ export default function FalloutInventory() {
     }, [filter]);
 
     useEffect(() => {
-        console.log(inventory.inst.items);
         if (!inventory.inst.loaded) {
             inventory.inst.load();
             setInventory(inventory);
@@ -89,8 +117,8 @@ export default function FalloutInventory() {
         }
     }, [inventory]);
 
-    function addItem(item) {
-        inventory.inst.addItem(item);
+    function addItem(item, key) {
+        inventory.inst.addItem(item, key);
         setInventory({inst: inventory.inst});
     }
 
@@ -110,8 +138,9 @@ export default function FalloutInventory() {
         const items = [];
         Object.values(json).forEach(item => {
             var itemName = Object.values(item)[0];
+            var itemKey = `${key}-${itemName}`;
             items.push(
-                <ListGroupItem action onClick={() => addItem(itemName)} title={Object.values(item).join(" ")} key={`${key}-${itemName}`}>
+                <ListGroupItem action onClick={() => addItem(itemName, itemKey)} title={Object.values(item).join(" ")} key={itemKey}>
                     {itemName}
                 </ListGroupItem>
             );
@@ -170,15 +199,24 @@ export default function FalloutInventory() {
                             </Row>
                         </CardHeader>
                         <CardBody>
-                            <ul>
-                                {
-                                    inventory.inst.items.map((e, index) => 
-                                        (<li key={index}>
-                                            {e}
-                                        </li>)
-                                    )
-                                }
-                            </ul>
+                            <Table striped>
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Load</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {inventory.inst.items.map((item, index) => (
+                                        <tr key={index}>
+                                            <td>{item.name}</td>
+                                            <td>{item.qty}</td>
+                                            <td>{item.load}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
                         </CardBody>
                     </Card>
                 </Col>

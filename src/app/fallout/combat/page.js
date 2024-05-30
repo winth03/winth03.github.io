@@ -48,6 +48,10 @@ class TurnManager {
         return currentAP;
     }
 
+    get currentAP() {
+        return this.calculateAP();
+    }
+
     addActionToQueue(action) {
         this.turnQueue[this.currentTurn].push(action);
     }
@@ -178,7 +182,6 @@ export default function FalloutCombat() {
     const [TM, setTM] = useState({ inst: new TurnManager() });
     const [showModal, setShowModal] = useState(false);
     const [actionInfo, setActionInfo] = useState({});
-    const [APcurrent, setAPcurrent] = useState(TM.inst.calculateAP());
     const [APmax, setAPmax] = useState(TM.inst.APmax);
     const [activeKey, setActiveKey] = useState(TM.inst.currentTurn);
 
@@ -187,7 +190,6 @@ export default function FalloutCombat() {
             console.log("Loading data from local storage.");
             TM.inst.load();
             setTM({ inst: TM.inst });
-            setAPcurrent(TM.inst.calculateAP());
             setActiveKey(TM.inst.currentTurn);
         } else {
             console.log("Saving data to local storage.");
@@ -204,26 +206,22 @@ export default function FalloutCombat() {
     function addAction(action) {
         TM.inst.addActionToQueue(action);
         setTM({ inst: TM.inst });
-        setAPcurrent(TM.inst.calculateAP());
     }
 
     function removeAction(actionIndex) {
         TM.inst.removeActionFromQueue(actionIndex);
         setTM({ inst: TM.inst });
-        setAPcurrent(TM.inst.calculateAP());
     }
 
     function nextTurn() {
         TM.inst.nextTurn();
         setTM({ inst: TM.inst });
-        setAPcurrent(TM.inst.calculateAP());
         setActiveKey(TM.inst.currentTurn);
     }
 
     function rollbackTurn() {
         TM.inst.rollbackTurn();
         setTM({ inst: TM.inst });
-        setAPcurrent(TM.inst.calculateAP());
         setActiveKey(TM.inst.currentTurn);
     }
 
@@ -239,7 +237,6 @@ export default function FalloutCombat() {
 
         TM.inst.APmax = APmax;
         setTM({ inst: TM.inst });
-        setAPcurrent(TM.inst.calculateAP());
     }
     //#endregion
 
@@ -283,7 +280,7 @@ export default function FalloutCombat() {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{APcurrent}</td>
+                                    <td>{TM.inst.currentAP}</td>
                                     <td><Form><FormControl disabled={TM.inst.currentTurn !== 0} type="number" step="1" value={APmax} onChange={setMaxAP} onKeyDown={updateMaxAP} /></Form></td>
                                     <td><Button variant="warning" onClick={rollbackTurn}>Rollback Turn</Button></td>
                                     <td><Button variant="success" onClick={nextTurn}>Next Turn</Button></td>
