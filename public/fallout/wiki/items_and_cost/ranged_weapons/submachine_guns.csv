@@ -1,4 +1,4 @@
-"Name","Base Cost","AP","Damage","Range","Critical Hit","Ammo and Reload","Special Properties","Load and STR Req."
+"Name","Base Cost","AP","Damage","Range","Critical Hit","Ammo and Reload","Special Properties","Load and STR Req"
 "H&H Tools nail gun","100c","6 AP","1 piercing","x3/x15","19, x3.","Nails, 90 rounds.","Automatic: 2. Two Handed. Unstable.","Load: 5, STR req: 4"
 "9mm SMG","190c","6 AP","1d4 ballistic","x4/x8","20, 1d4.","9mm, 30 rounds.","Automatic: 2. Two Handed. Unstable.","Load: 8, STR req: 5"
 "10mm SMG","250c","6 AP","1d6 ballistic","x4/x8","20, 1d6.","10mm, 30 rounds.","Automatic: 2. Two Handed. Unstable.","Load: 12, STR req: 5"

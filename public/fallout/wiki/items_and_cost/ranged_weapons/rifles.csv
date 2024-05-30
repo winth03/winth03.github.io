@@ -1,4 +1,4 @@
-"Name","Base Cost","AP","Damage","Range","Critical Hit","Ammo and Reload","Special Properties","Load and STR Req."
+"Name","Base Cost","AP","Damage","Range","Critical Hit","Ammo and Reload","Special Properties","Load and STR Req"
 "Syringer","130c","5 AP","1 piercing","x3/x6","20, deals damage to hit points.","Syringe, 1 round.","Accurate. Powerful.","Load: 8, STR req: 2"
 "Lever Action Rifle","455c","5 AP","2d6 ballistic","x6/x18","20, x3","10mm, 10 rounds.","Accurate. Manual Reload. Two Handed.","Load: 15, STR req: 5"
 "Cowboy Repeater","400c","5 AP","2d6 ballistic","x8/x18","20, x2",".357, 7 rounds.","Accurate. Manual Reload. Two Handed.","Load: 12, STR req: 4"

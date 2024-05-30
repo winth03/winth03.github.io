@@ -1,4 +1,4 @@
-"Name","Base Cost","AP","Damage","Range","Critical Hit","Ammo and Reload","Special Properties","Load and STR Req."
+"Name","Base Cost","AP","Damage","Range","Critical Hit","Ammo and Reload","Special Properties","Load and STR Req"
 "Lever-action Shotgun","600c","4 AP","3d4 ballistic","x3/x6","20, 5d4","20 gauge. Rounds: 5.","Powerful. Manual Reload. Spread. Two Handed.","Load: 10, STR req: 5"
 "Single Shotgun","500c","4 AP","3d6 ballistic","x3/x6","20, 3d6","20 gauge. Rounds: 1.","Powerful. Quick Reload. Spread. Two Handed.","Load: 10, STR req: 4"
 "Sawed-off Shotgun","700c","4 AP","2d10 ballistic","x2/x4","20, 4d10","12 gauge. Rounds: 2.","Destructive. Powerful. Quick Reload. Spread. Two Handed. Unstable.","Load: 8, STR req: 4"

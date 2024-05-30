@@ -1,4 +1,5 @@
 import CSVTable from "@/components/CSVTable";
+import csvtojson from 'csvtojson'
 import fs from "fs";
 import path from "path";
 import base64url from "base64url";
@@ -29,11 +30,11 @@ export async function generateStaticParams() {
     return params;
 }
 
-export default function FalloutWikiItem({ params: { file } }) {
+export default async function FalloutWikiItem({ params: { file } }) {
 
     const filePath = base64url.decode(file);
     const fileName = filePath.split("\\").pop().split("/").pop().replace("_", " ").split(".")[0];
-    const csv = fs.readFileSync(filePath, "utf8");
+    const csv = await csvtojson().fromString((fs.readFileSync(filePath, "utf8")));
 
     return (
         <div>

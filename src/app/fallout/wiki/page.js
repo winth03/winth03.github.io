@@ -1,5 +1,6 @@
 "use client"
 import ListGroupTab from "@/components/ListGroupTab";
+import Script from "next/script";
 import { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 
@@ -8,16 +9,15 @@ export default function FalloutWiki() {
     const [filter, setFilter] = useState("");
 
     useEffect(() => {
-        const fetchCategories = async () => {
-            const response = await fetch("/fallout/wiki/api/categories");
-            const data = await response.json();
-            if (filter) {
-                setCategories(filterCategories(data, filter));
-            } else {
-                setCategories(data);
-            }
-        };
-        fetchCategories();
+        fetch("/fallout/api/categories")
+            .then(res => res.json())
+            .then(data => {
+                if (filter) {
+                    setCategories(filterCategories(data, filter));
+                } else {
+                    setCategories(data);
+                }
+            });
     }, [filter]);
 
     function filterCategories(categories, filter) {
@@ -53,10 +53,13 @@ export default function FalloutWiki() {
         <div>
             <Container fluid className="d-flex justify-content-between">
                 <h1>Fallout Wiki</h1>
-                <Form onSubmit={applyFilter} className="d-flex">
+                {/* <Form onSubmit={applyFilter} className="d-flex">
                     <Form.Control onKeyDown={applyFilterKeydown} type="text" placeholder="Search" />
                     <Button className="ms-4" type="submit">Search</Button>
-                </Form>
+                </Form> */}
+                <Script async src="https://cse.google.com/cse.js?cx=f42735e5b80154d35">
+                </Script>
+                <div class="gcse-search"></div>
             </Container>
             <ListGroupTab categories={categories} />
         </div>

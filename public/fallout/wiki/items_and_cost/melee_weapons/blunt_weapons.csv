@@ -1,4 +1,4 @@
-"Name","Base Cost","AP","Damage","Crit Chance and type","Special Properties","Carry Load and Strength Req."
+"Name","Base Cost","AP","Damage","Crit Chance and type","Special Properties","Carry Load and Strength Req"
 "Police Baton","105c","4 AP","1d6 bludgeoning","20, 1d6.","Sturdy.","Load: 2,STR req: 1"
 "Wrench","140c","4 AP","2d4 bludgeoning","20, 4d4.","Sturdy.","Load: 3,STR req: 2"
 "Crowbar","335c","6 AP","2d10 bludgeoning","20, 4d10.","Weighted. Durable. Defensive. Two Handed.","Load: 18,STR req: 6"

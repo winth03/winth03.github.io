@@ -1,4 +1,4 @@
-"Name","Base Cost","AP","Damage","Range","Critical Hit","Ammo and Reload","Special Properties","Load and STR Req."
+"Name","Base Cost","AP","Damage","Range","Critical Hit","Ammo and Reload","Special Properties","Load and STR Req"
 "Flare Gun","90c","4 AP","1d4 fire","x4/x10","20, 1d4.","Flare, 1 round.","Incendiary.","Load: 2, STR req: 1"
 "Acid Soaker","45c","4 AP","1 acid","30 ft.","20, 1d4.","Acid, 20 rounds.","Corrosive.","Load: 4, STR req: 1"
 "Pipe pistol","165c","5 AP","1d4 ballistic","x6/x10","20, 1d4.","9mm, 12 rounds.","Breakable. Kickback. Semi-Automatic.","Load: 8, STR req: 3"

@@ -1,4 +1,4 @@
-"Name","Base Cost","AP","Damage","Critical Hit","Special Properties","Carry Load and Strength Req."
+"Name","Base Cost","AP","Damage","Critical Hit","Special Properties","Carry Load and Strength Req"
 "Brass Knuckles","150c","4 AP","1d4 + 1 bludgeoning.","20, 4d4.","Unarmed. Durable. Weighted.","Load: 3,STR req: 5"
 "Spiked Knuckles","120c","4 AP","1d4 + 1 piercing.","19 - 20, Applies bleeding.","Unarmed.","Load: 2,STR req: 4"
 "Boxing Gloves","115c","4 AP","1d4 bludgeoning.","20, 1d4. Applies dazed.","Defensive. Sturdy. Unarmed.","Load: 4,STR req: 3"

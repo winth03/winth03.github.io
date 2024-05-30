@@ -1,4 +1,4 @@
-"Name","Base Cost","AP","Damage","Range","Critical Hit","Ammo and Reload","Special Properties","Load and STR Req."
+"Name","Base Cost","AP","Damage","Range","Critical Hit","Ammo and Reload","Special Properties","Load and STR Req"
 "Solar Scorcher","340c","3 AP","1d4 fire","x5/x10","20, applies burning.","The weapon can fire so long as it is in Sunlight.","Energy Weapon. Semi-Automatic.","Load: 4, STR req: 1"
 "Laser pistol","415c","4 AP","1d8 laser","x10/x20","20, x2, applies burning.","1 Energy Cell = 30 rounds.","Energy Weapon. Semi-Automatic.","Load: 6, STR req: 1"
 "Laser rifle","500c","5 AP","2d6 laser","x12/x24","20, x2, applies burning.","1 Energy Cell = 24 rounds.","Accurate. Energy Weapon. Unwieldy.","Load: 10, STR req: 2"

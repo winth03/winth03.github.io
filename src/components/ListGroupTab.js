@@ -43,7 +43,7 @@ export default function ListGroupTab({ categories }) {
     );
 
     return (
-        <TabContainer defaultActiveKey={`#${Object.keys(categories)[0].toLowerCase()}`}>            
+        <TabContainer defaultActiveKey={`#${Object.keys(categories)[0]?.toLowerCase()}`}>            
             <h3>Categories</h3>                
             <Row>
                 <Col sm={4}>

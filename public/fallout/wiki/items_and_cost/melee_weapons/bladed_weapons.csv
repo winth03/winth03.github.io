@@ -1,4 +1,4 @@
-"Name","Base Cost","AP","Damage","Critical Hit","Special Properties","Load and Strength Req."
+"Name","Base Cost","AP","Damage","Critical Hit","Special Properties","Load and Strength Req"
 "Shiv","65c","3 AP","1d4 piercing","20, x2.","Fragile.","Load: 1,STR req: 1"
 "Knife","200c","3 AP","1d6 piercing or slashing","20, x3.","Thrown, x3/x6.","Load: 2,STR req: 2"
 "Switchblade","120c","3 AP","1d6 piercing or slashing","20, x2.","Fragile, Weighted.","Load: 2,STR req: 1"

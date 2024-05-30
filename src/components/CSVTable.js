@@ -1,30 +1,12 @@
-"use client"
-import csvtojson from "csvtojson";
-import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
-
-function toTitleCase(str) {
-    return str.replace(
-        /\w\S*/g,
-        function (txt) {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        }
-    );
-}
+import { toTitleCase } from "../app/fallout/wiki/utils";
 
 export default function CSVTable({ csv }) {
-    const [data, setData] = useState([]);
-    useEffect(() => {
-        csvtojson().fromString(csv).then((json) => {
-            setData(json);
-        });
-    }, []);
-
     return (
-        <Table>
+        <Table striped>
             <thead>
                 <tr>
-                    {Object.keys(data[0] ?? {}).map((key) => (
+                    {Object.keys(csv[0] ?? {}).map((key) => (
                         <th key={key}>
                             {toTitleCase(key)}
                         </th>
@@ -33,7 +15,7 @@ export default function CSVTable({ csv }) {
             </thead>
             <tbody>
                 {
-                    data.map((e, index) => {
+                    csv.map((e, index) => {
                         return (
                             <tr key={index}>
                                 {Object.keys(e).map((key) => (

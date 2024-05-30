@@ -1,4 +1,4 @@
-"Name","Base Cost","AP","Damage","Range","Critical Hit","Ammo and Reload","Special Properties","Load and STR Req."
+"Name","Base Cost","AP","Damage","Range","Critical Hit","Ammo and Reload","Special Properties","Load and STR Req"
 "Flamer","240c","6 AP","2d10 fire","60 ft. line, 10 feet wide. or a 20 ft cone.","-","fuel, 5 rounds.","Area of Effect. Incendiary. Slow. Slow Reload. Two Handed.","Load: 60, STR req: 7"
 "Missile Launcher","670c","6 AP","10d6 explosive in a 10ft. radius.","x10/x40","-","Missile, 1 round.","Area of Effect. Destructive. Durable. Slow. Two Handed.","Load: 50, STR req: 7"
 "Minigun","1650c","6 AP","5d6 ballistic","x15/x40","20, 2d6.","5mm, 120 rounds (uses 10 per attack)","Automatic: 2. Destructive. Durable. Slow Reload. Spread. Two Handed.","Load: 90, STR req: 10"
