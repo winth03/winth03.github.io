@@ -172,8 +172,8 @@ export default function FalloutInventory() {
                         <CardBody>
                             <ul>
                                 {
-                                    inventory.inst.items.map(e => 
-                                        (<li>
+                                    inventory.inst.items.map((e, index) => 
+                                        (<li key={index}>
                                             {e}
                                         </li>)
                                     )

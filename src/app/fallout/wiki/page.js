@@ -59,7 +59,7 @@ export default function FalloutWiki() {
                 </Form> */}
                 <Script async src="https://cse.google.com/cse.js?cx=f42735e5b80154d35">
                 </Script>
-                <div class="gcse-search"></div>
+                <div className="gcse-search"></div>
             </Container>
             <ListGroupTab categories={categories} />
         </div>
