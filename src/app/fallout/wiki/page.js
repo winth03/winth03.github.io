@@ -9,6 +9,23 @@ export default function FalloutWiki() {
     const [filter, setFilter] = useState("");
 
     useEffect(() => {
+        function filterCategories(categories, filter) {
+            const filteredCategories = {};
+            Object.keys(categories).forEach((category) => {
+                const filteredItems = {};
+                Object.keys(categories[category]).forEach((subCategory) => {
+                    const filteredSubCategory = categories[category][subCategory].filter((item) => item.toLowerCase().includes(filter.toLowerCase()));
+                    if (filteredSubCategory.length > 0) {
+                        filteredItems[subCategory] = filteredSubCategory;
+                    }
+                });
+                if (Object.keys(filteredItems).length > 0) {
+                    filteredCategories[category] = filteredItems;
+                }
+            });
+            return filteredCategories;
+        }
+
         fetch("/fallout/api/categories")
             .then(res => res.json())
             .then(data => {
@@ -19,23 +36,6 @@ export default function FalloutWiki() {
                 }
             });
     }, [filter]);
-
-    function filterCategories(categories, filter) {
-        const filteredCategories = {};
-        Object.keys(categories).forEach((category) => {
-            const filteredItems = {};
-            Object.keys(categories[category]).forEach((subCategory) => {
-                const filteredSubCategory = categories[category][subCategory].filter((item) => item.toLowerCase().includes(filter.toLowerCase()));
-                if (filteredSubCategory.length > 0) {
-                    filteredItems[subCategory] = filteredSubCategory;
-                }
-            });
-            if (Object.keys(filteredItems).length > 0) {
-                filteredCategories[category] = filteredItems;
-            }
-        });
-        return filteredCategories;
-    }
 
     function applyFilterKeydown(event) {
         if (event.key === "Enter") {
@@ -57,9 +57,9 @@ export default function FalloutWiki() {
                     <Form.Control onKeyDown={applyFilterKeydown} type="text" placeholder="Search" />
                     <Button className="ms-4" type="submit">Search</Button>
                 </Form> */}
-                <Script async src="https://cse.google.com/cse.js?cx=f42735e5b80154d35">
+                {/* <Script async src="https://cse.google.com/cse.js?cx=f42735e5b80154d35">
                 </Script>
-                <div className="gcse-search"></div>
+                <div id="search" className="gcse-search"></div> */}
             </Container>
             <ListGroupTab categories={categories} />
         </div>
