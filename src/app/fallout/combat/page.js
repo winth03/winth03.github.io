@@ -1,26 +1,29 @@
 "use client"
 
-import { Accordion, Button, Container, Form, FormControl, ListGroup, Table } from "react-bootstrap";
+import { Accordion, Button, Container, Form, FormControl, ListGroup, Spinner, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 
 const numericRegex = new RegExp("^(0|[1-9][0-9]*)$");
 
 class TurnManager {
-    constructor() {
+    constructor(callback) {
         this.currentTurn = 0;
         this.APmax = 10;
         this.turnQueue = [[]];
         this.fullRecycle = false;
         this.loaded = false;
+        this.callback = callback;
     }
 
     nextTurn() {
-        const APleft = this.calculateAP();
+        const APleft = this._calculateAP();
         if (APleft < 0) return alert("You do not have enough AP to end your turn.");
 
         this.turnQueue.push([]);
         this.currentTurn++;
+
+        if (this.callback) this.callback();
     }
 
     rollbackTurn() {
@@ -28,19 +31,21 @@ class TurnManager {
 
         this.turnQueue.pop();
         this.currentTurn--;
+
+        if (this.callback) this.callback();
     }
 
-    calculateRecycledAP(turn = this.currentTurn) {
+    _calculateRecycledAP(turn = this.currentTurn) {
         if (turn < 1) return 0;
-        const APleft = this.calculateAP(turn - 1);
+        const APleft = this._calculateAP(turn - 1);
         if (this.fullRecycle) return APleft;
         return Math.floor(APleft / 2);
     }
 
-    calculateAP(turn = this.currentTurn) {
+    _calculateAP(turn = this.currentTurn) {
         if (turn < 0 || turn >= this.turnQueue.length) return 0;
         var currentTurn = this.turnQueue[turn];
-        var currentAP = Math.min(this.APmax + this.calculateRecycledAP(turn), 15);
+        var currentAP = Math.min(this.APmax + this._calculateRecycledAP(turn), 15);
         currentTurn.forEach(action => {
             if (!numericRegex.test(action.apCost)) return;
             currentAP -= parseInt(action.apCost);
@@ -48,16 +53,29 @@ class TurnManager {
         return currentAP;
     }
 
+    set APmax(value) {
+        if (!numericRegex.test(value)) return;
+        this._APmax = parseInt(value) || 0;
+        if (this.callback) this.callback();
+    }
+    get APmax() {
+        return this._APmax;
+    }
+
     get currentAP() {
-        return this.calculateAP();
+        return this._calculateAP();
     }
 
     addActionToQueue(action) {
         this.turnQueue[this.currentTurn].push(action);
+
+        if (this.callback) this.callback();
     }
 
     removeActionFromQueue(actionIndex) {
         this.turnQueue[this.currentTurn]?.splice(actionIndex, 1);
+
+        if (this.callback) this.callback();
     }
 
     // Save to local storage
@@ -72,12 +90,14 @@ class TurnManager {
             console.log("Loaded data from local storage.");
             const loadedData = JSON.parse(data);
             this.currentTurn = loadedData.currentTurn;
-            this.APmax = loadedData.APmax;
+            this.APmax = loadedData._APmax;
             this.turnQueue = loadedData.turnQueue;
             this.fullRecycle = loadedData.fullRecycle;
         }
         else console.log("No data found in local storage.");
         this.loaded = true;
+
+        if (this.callback) this.callback();
     }
 }
 
@@ -179,17 +199,15 @@ export default function FalloutCombat() {
             description: "When you take this action, you take the chem out of your inventory and use it. You don’t need to interact with the object or equip the chem in order to use it."
         },
     ];
-    const [TM, setTM] = useState({ inst: new TurnManager() });
+    const [TM, setTM] = useState({ inst: new TurnManager(() => setTM({inst: TM.inst})) });
     const [showModal, setShowModal] = useState(false);
     const [actionInfo, setActionInfo] = useState({});
-    const [APmax, setAPmax] = useState(TM.inst.APmax);
     const [activeKey, setActiveKey] = useState(TM.inst.currentTurn);
 
     useEffect(() => {
         if (!TM.inst.loaded) {
             console.log("Loading data from local storage.");
             TM.inst.load();
-            setTM({ inst: TM.inst });
             setActiveKey(TM.inst.currentTurn);
         } else {
             console.log("Saving data to local storage.");
@@ -203,44 +221,30 @@ export default function FalloutCombat() {
         setShowModal(true);
     }
 
-    function addAction(action) {
-        TM.inst.addActionToQueue(action);
-        setTM({ inst: TM.inst });
-    }
-
-    function removeAction(actionIndex) {
-        TM.inst.removeActionFromQueue(actionIndex);
-        setTM({ inst: TM.inst });
-    }
-
     function nextTurn() {
         TM.inst.nextTurn();
-        setTM({ inst: TM.inst });
         setActiveKey(TM.inst.currentTurn);
     }
 
     function rollbackTurn() {
         TM.inst.rollbackTurn();
-        setTM({ inst: TM.inst });
         setActiveKey(TM.inst.currentTurn);
     }
 
-    function setMaxAP(value) {
-        if (!numericRegex.test(value.target.value)) return;
-
-        setAPmax(parseInt(value.target.value) || 0);
-    }
-
     function updateMaxAP(event) {
-        event.preventDefault();
         if (event.key !== "Enter") return;
+        event.preventDefault();
 
-        TM.inst.APmax = APmax;
-        setTM({ inst: TM.inst });
+        TM.inst.APmax = event.target.value;
     }
     //#endregion
 
-    return (
+    if (!TM.inst.loaded) return (
+        <Container fluid className="d-flex justify-content-center">
+            <Spinner />
+        </Container>
+    )
+    else return (
         <div>
             <Container fluid className="d-lg-flex">
                 <Container>
@@ -258,7 +262,7 @@ export default function FalloutCombat() {
                                 actionsList.map((action, index) => {
                                     return (
                                         <tr key={index}>
-                                            <td><Button variant="outline-primary" onClick={() => addAction(action)}>{action.action}</Button> <i onClick={() => showActionInfo(action)} title={action.description} className="bi bi-info-circle" /></td>
+                                            <td><Button variant="outline-primary" onClick={() => TM.inst.addActionToQueue(action)}>{action.action}</Button> <i onClick={() => showActionInfo(action)} title={action.description} className="bi bi-info-circle" /></td>
                                             <td>{action.apCost}</td>
                                         </tr>
                                     );
@@ -281,7 +285,7 @@ export default function FalloutCombat() {
                             <tbody>
                                 <tr>
                                     <td>{TM.inst.currentAP}</td>
-                                    <td><Form><FormControl disabled={TM.inst.currentTurn !== 0} type="number" step="1" value={APmax} onChange={setMaxAP} onKeyDown={updateMaxAP} /></Form></td>
+                                    <td><Form><FormControl disabled={TM.inst.currentTurn !== 0} defaultValue={TM.inst.APmax} type="number" step="1" onKeyDown={updateMaxAP} /></Form></td>
                                     <td><Button variant="warning" onClick={rollbackTurn}>Rollback Turn</Button></td>
                                     <td><Button variant="success" onClick={nextTurn}>Next Turn</Button></td>
                                 </tr>
@@ -304,7 +308,7 @@ export default function FalloutCombat() {
                                                 {
                                                     turn.map((action, actionIndex) => {
                                                         return (
-                                                            <ListGroup.Item disabled={turnIndex !== TM.inst.currentTurn} key={actionIndex} action onClick={() => removeAction(actionIndex)}>{action.action}</ListGroup.Item>
+                                                            <ListGroup.Item disabled={turnIndex !== TM.inst.currentTurn} key={actionIndex} action onClick={() => TM.inst.removeActionFromQueue(actionIndex)}>{action.action}</ListGroup.Item>
                                                         );
                                                     })
                                                 }
