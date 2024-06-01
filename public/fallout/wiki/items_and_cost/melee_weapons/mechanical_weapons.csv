@@ -1,7 +1,7 @@
-"Name","Base Cost","AP","Damage","Critical Hit","Special Properties","Carry Load and Strength Req"
-"Cattle Prod","210c","4 AP","1d4 bludgeoning 2d8 electricity.","20. Dazed.","Ammo: Energy Cells, 10 rounds. Depleted: 1d4 bludgeoning.","Load: 3,STR req: 3"
-"Ripper","410c","3 AP","3d8 slashing.","20. 1d8.","Debilitating. Mangle.Ammo: Energy Cells, 10 rounds. Depleted: 1d4 bludgeoning.","Load: 4,STR req: 6"
-"Chainsaw","670c","6 AP","6d8 slashing.","20. 3d8.","Debilitating. Two-Handed. Mangle. Ammo: Energy Cells, 5 rounds.Depleted: 1d8 bludgeoning.","Load: 20,STR req: 8"
-"Drill","190c","4 AP","1d8 slashing.","19, 20. Applies bleeding.","Debilitating. Mangle.Ammo: Energy Cells, 20 rounds. Depleted: 1d4 piercing.","Load: 5,STR req: 5",
-"Plasma Cutter","750c","5 AP","4d8 plasma","20. Applies severe arm or leg condition.","Dismember.Ammo: Microfusion Cells, 5 rounds. Depleted: 1d6 bludgeoning.","Load: 8,STR req: 5",
-"Shishkebab","690c","4 AP","2d6 slashing, 2d6 fire.","20, x2. Applies Burning.","Debilitating. Dismember. Defensive.Ammo: Flamer fuel, 10 rounds. Depleted: 2d6 slashing.","Load: 6,STR req: 5",
+"Name","Base Cost","AP","Damage","Critical Hit","Special Properties","Load and STR Req"
+"Cattle Prod","210c","4 AP","1d4 bludgeoning 2d8 electricity","20. Dazed","Ammo: Energy Cells, 10 rounds. Depleted: 1d4 bludgeoning","Load: 3,STR req: 3"
+"Ripper","410c","3 AP","3d8 slashing","20. 1d8","Debilitating. Mangle.Ammo: Energy Cells, 10 rounds. Depleted: 1d4 bludgeoning","Load: 4,STR req: 6"
+"Chainsaw","670c","6 AP","6d8 slashing","20. 3d8","Debilitating. Two-Handed. Mangle. Ammo: Energy Cells, 5 rounds.Depleted: 1d8 bludgeoning","Load: 20,STR req: 8"
+"Drill","190c","4 AP","1d8 slashing","19, 20. Applies bleeding","Debilitating. Mangle.Ammo: Energy Cells, 20 rounds. Depleted: 1d4 piercing","Load: 5,STR req: 5",
+"Plasma Cutter","750c","5 AP","4d8 plasma","20. Applies severe arm or leg condition","Dismember.Ammo: Microfusion Cells, 5 rounds. Depleted: 1d6 bludgeoning","Load: 8,STR req: 5",
+"Shishkebab","690c","4 AP","2d6 slashing, 2d6 fire","20, x2. Applies Burning","Debilitating. Dismember. Defensive.Ammo: Flamer fuel, 10 rounds. Depleted: 2d6 slashing","Load: 6,STR req: 5",
