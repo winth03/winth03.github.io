@@ -1,12 +1,11 @@
 import { Form } from "react-bootstrap";
 import { toTitleCase } from "../wiki/utils";
-import { parse } from "path";
 
 export const EXTRA_ELEMENTS = {
     checkbox: (item, key, value, IM) => (
         <Form.Check
             key={key}
-            label={key}
+            label={toTitleCase(key)}
             checked={value ?? false}
             onChange={(event) => IM.setExtra(item, key, event.target.checked)}
         />
