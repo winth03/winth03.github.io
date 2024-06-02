@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Button, Card, CardBody, CardHeader, Col, Container, Form, ListGroup, ListGroupItem, Row, Spinner, Table } from "react-bootstrap";
 import { toTitleCase } from "../wiki/utils";
-import { EXTRA_ELEMENTS, PARSER, InventoryManager, InventoryItem } from "./utils";
+import { InventoryManager } from "./utils";
 
 export default function FalloutInventory() {
     const [inventory, setInventory] = useState({ inst: new InventoryManager(() => setInventory({inst: inventory.inst})) });
@@ -158,25 +158,34 @@ export default function FalloutInventory() {
                                 <tbody>
                                     {
                                         inventory.inst.items.reduce((acc, item, index) => {
-                                            if (item.group) {
+                                            if (item.extra || item.group) {
                                                 return acc.concat(item.groupItems.map((groupItem, groupIndex) => {
                                                     const itemKey = `${item.name}_${groupIndex}`;
                                                     return (
                                                         <tr key={itemKey}>
                                                             <td>{groupItem.name}</td>
                                                             <td>{groupItem.qty}</td>
-                                                            <td>{item.carryLoad} ({item.name})</td>
                                                             <td>
                                                                 {
-                                                                    PARSER[groupItem.parserKey].extra(groupItem.data) ?
-                                                                        Object.keys(PARSER[groupItem.parserKey].extra(groupItem.data)).map((key, index) => {
-                                                                            return (
-                                                                                {
-                                                                                    ...EXTRA_ELEMENTS[PARSER[groupItem.parserKey].extra(groupItem.data)[key]](groupItem, key, groupItem.data[key], inventory.inst)
-                                                                                }
-                                                                            );
-                                                                        }) :
-                                                                        null
+                                                                    item.extra ?
+                                                                        groupItem.carryLoad :
+                                                                        `${item.carryLoad} (${item.name})`
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                {
+                                                                    groupItem.extra ?
+                                                                    (
+                                                                        <Form.Check
+                                                                            type="checkbox"
+                                                                            label={toTitleCase(groupItem.extra.label)}
+                                                                            checked={groupItem.extra.value ?? false}
+                                                                            onChange={(event) => {
+                                                                                inventory.inst.setExtra(item, groupItem, event.target.checked);
+                                                                            }}
+                                                                        />
+                                                                    ) :
+                                                                    null
                                                                 }
                                                             </td>
                                                             <td><Button variant="danger" onClick={() => inventory.inst.removeItem(itemKey)}><i className="bi bi-x" /></Button></td>
@@ -188,20 +197,7 @@ export default function FalloutInventory() {
                                                     <td>{item.name}</td>
                                                     <td>{item.qty}</td>
                                                     <td>{item.carryLoad}</td>
-                                                    <td>
-                                                        {
-                                                            PARSER[item.parserKey].extra(item.data) ?
-                                                                Object.keys(PARSER[item.parserKey].extra(item.data)).map((key, index) => {
-                                                                    const [type, value] = PARSER[item.parserKey].extra(item.data)[key];
-                                                                    return (
-                                                                        {
-                                                                            ...EXTRA_ELEMENTS[type](item, key, value || item.data[key], inventory.inst)
-                                                                        }
-                                                                    );
-                                                                }) :
-                                                                null
-                                                        }
-                                                    </td>
+                                                    <td></td>
                                                     <td><Button variant="danger" onClick={() => inventory.inst.removeItem(item.name)}><i className="bi bi-x" /></Button></td>
                                                 </tr>
                                             );

@@ -1,26 +1,6 @@
 import { Form } from "react-bootstrap";
 import { toTitleCase } from "../wiki/utils";
 
-export const EXTRA_ELEMENTS = {
-    checkbox: (item, key, value, IM) => (
-        <Form.Check
-            key={key}
-            label={toTitleCase(key)}
-            checked={value ?? false}
-            onChange={(event) => IM.setExtra(item, key, event.target.checked)}
-        />
-    ),
-    hidden: (item, key, value, IM) => (
-        <Form.Control
-            key={key}
-            id={`${item.name}_${key}`}
-            type="hidden"
-            value={value}
-            readOnly
-        />
-    )
-}
-
 export const PARSER = {
     armor: {
         group: false,
@@ -29,23 +9,27 @@ export const PARSER = {
     },
     armors: {
         group: false,
-        carryLoad: (qty, data) => {
-            const load = parseInt(data["Load and STR Req"].split(", ")[0].split(": ")[1]);
-            if (data["equip"]) return Math.floor(load * qty / 2);
-            else return load * qty;
+        carryLoad: (qty, data, extra) => {
+            return (extra.value ? extra.values[0] : extra.values[1]) * qty;
         },
-        extra: () => ({
-            equip: ["checkbox"]
-        })
+        extra: (data) => {
+            const load = parseInt(data["Load and STR Req"].split(", ")[0].split(": ")[1]);
+            return {
+                label: "equip",
+                values: [Math.floor(load / 2), load],
+                value: false
+            };
+        }
     },
     power_armors: {
         group: false,
-        carryLoad: (qty, data) => {
-            if (data["equip"]) return 0;
-            else return 100 * qty;
+        carryLoad: (qty, data, extra) => {
+            return (extra.value ? extra.values[0] : extra.values[1]) * qty;
         },
         extra: () => ({
-            equip: ["checkbox"]
+            label: "equip",
+            values: [0, 100],
+            value: false
         })
     },
     melee_weapons: {
@@ -76,28 +60,27 @@ export const PARSER = {
     },
     items_and_gear: {
         group: false,
-        carryLoad: (qty, data) => {
-            const load = parseInt(data["Load"].replace(/[(),]/ig, "").split(" ", 1)[0]);
-            const keys = Object.keys(data);
-            const equal = document.getElementById(`${data["Name"]}_equal`)?.value;
-            if (equal && keys.includes("worn")) return (data["worn"] ? equal : load) * qty;
-            else if (equal && keys.includes("full")) return (data["full"] ? equal : load) * qty;
-            else if (keys.includes("worn")) return data["worn"] ? 0 : load * qty;
+        carryLoad: (qty, data, extra) => {
+            const load = parseInt(data["Load"].replace(/[\(\)]/ig, "").split(" ", 1)[0]);
+            if (extra) return (extra.value ? extra.values[0] : extra.values[1]) * qty;
             else return load * qty;
         },
         extra(data) {
             const extra = {};
-            const loadDesc = data["Load"].replace(/[\(\)]/ig, "").split(" ").slice(1).join(" ");
+            const loadData = data["Load"].replace(/[\(\)]/ig, "").split(" ");
+            const load = parseInt(loadData[0]);
+            const loadDesc = loadData.slice(1).join(" ");
             if (loadDesc === "while not worn") {
-                extra.worn = ["checkbox"];
+                extra.label = "equip";
+                extra.values = [0, load];
             } else if ((/^equal to.+when full$/).test(loadDesc)) {
-                extra.full = ["checkbox"];
-                extra.equal = ["hidden", parseInt(loadDesc.split(" ")[2])];
+                extra.label = "full";
+                extra.values = [parseInt(loadDesc.split(" ")[2]), load];
             } else if ((/^equal to.+while worn$/).test(loadDesc)) {
-                extra.worn = ["checkbox"];
-                extra.equal = ["hidden", parseInt(loadDesc.split(" ")[2])];
+                extra.label = "equip";
+                extra.values = [parseInt(loadDesc.split(" ")[2]), load];
             }
-            return Object.keys(extra).length ? extra : undefined;
+            return Object.keys(extra).length ? {...extra, value: false} : undefined;
         }
     },
     explosives: {
@@ -109,10 +92,12 @@ export const PARSER = {
 
 export class InventoryItem {
     constructor(item, qty, parserKey, data, root = true) {
-        this.group = PARSER[parserKey].group && root;
+        const extraData = PARSER[parserKey].extra(data);
+        this.group = (extraData || PARSER[parserKey].group) && root;
         this.name = (this.group && root) ? toTitleCase(parserKey) : item;
         this.parserKey = parserKey;
-        this.groupItems = [];
+        this.groupItems = [];        
+        this.extra = extraData;
         
         if (this.group) {
             this.addGroupItem(item, data, qty);
@@ -123,7 +108,8 @@ export class InventoryItem {
     }
 
     get carryLoad() {
-        return PARSER[this.parserKey].carryLoad(this.qty, this.data);
+        if (this.extra && this.group) return this.groupItems.reduce((acc, item) => acc + item.carryLoad, 0);
+        else return PARSER[this.parserKey].carryLoad(this.qty, this.data, this.extra);
     }
 
     set qty(qty) {
@@ -142,6 +128,19 @@ export class InventoryItem {
         } else {
             this.groupItems[itemIndex].qty++;
         }        
+    }
+
+    changeGroupItemQty(item, data, amount, manager) {
+        const itemIndex = this.groupItems.findIndex(i => i.name === item);
+        if (itemIndex !== -1) {
+            this.groupItems[itemIndex].qty += amount;
+            if (this.groupItems[itemIndex].qty <= 0) {
+                console.log("Removing item", this.groupItems[itemIndex].name);
+                manager.removeItem(`${this.name}_${itemIndex}`);
+            }
+        } else if (amount > 0) {
+            manager.addItem(item, this.parserKey, data, amount, true);
+        }
     }
 }
 
@@ -162,10 +161,10 @@ export class InventoryManager {
         const itemIndex = Math.max(this.items.findIndex(i => i.name === item), this.items.findIndex(i => i.name === toTitleCase(parserKey)));
         if (itemIndex === -1) {
             // get first key that is in PARSER
-            this.items.push(new InventoryItem(item, qty, parserKey, data));
+            this.items.push(new InventoryItem(item, qty, parserKey, data, true));
         } else {            
             if (this.items[itemIndex].group) {
-                this.items[itemIndex].addGroupItem(item, data);
+                this.items[itemIndex].addGroupItem(item, data, qty);
             } else this.items[itemIndex].qty += qty;
         }
         if (this.callback && save) this.callback();
@@ -173,7 +172,7 @@ export class InventoryManager {
 
     removeItem(itemKey) {
         var [item, groupIndex] = itemKey.split("_");
-        groupIndex = parseInt(groupIndex) || -1;
+        groupIndex = parseInt(groupIndex) === 0 ? 0 : parseInt(groupIndex) || -1;
         if (groupIndex !== -1) {
             this.items.find(i => i.name === item).groupItems.splice(groupIndex, 1);
         }
@@ -181,9 +180,23 @@ export class InventoryManager {
         if (this.callback) this.callback();
     }
 
-    setExtra(item, key, value) {
-        if (!Object.keys(PARSER[item.parserKey].extra(item.data) ?? {}).includes(key)) throw new Error("Invalid extra key");
-        item.data[key] = value;
+    setExtra(item, groupItem, value) {
+        const label = groupItem.extra.label;
+        const name = groupItem.name;
+        var data = groupItem.data;
+        // If value is true add a new item with the extra value and remove 1 of the old one
+        if (value) {
+            var newItemName = `${name} (${toTitleCase(label)})`;
+            item.changeGroupItemQty(newItemName, data, 1, this);
+            item.groupItems.find(i => i.name === newItemName).extra.value = true;
+            item.changeGroupItemQty(name, data, -1, this);
+        } else {
+            item.changeGroupItemQty(name, data, -1, this);
+            var newItemName = name.split(" ");
+            newItemName.pop();
+            newItemName = newItemName.join(" ");
+            item.changeGroupItemQty(newItemName, data, 1, this);
+        }
 
         if (this.callback) this.callback();
     }
@@ -197,10 +210,10 @@ export class InventoryManager {
         const items = JSON.parse(localStorage.getItem('InventoryManager'));
         if (items) {
             items.forEach(item => {
-                const isGroup = PARSER[item.parserKey].group;
-                if (isGroup) {
+                if (item.group) {
                     item.groupItems.forEach(groupItem => {
                         this.addItem(groupItem.name, groupItem.parserKey, groupItem.data, groupItem._qty, false);
+                        this.items[this.items.length - 1].groupItems.find(i => i.name === groupItem.name).extra = groupItem.extra;
                     });
                 } else {
                     this.addItem(item.name, item.parserKey, item.data, item._qty, false);
