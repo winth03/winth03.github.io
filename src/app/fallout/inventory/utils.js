@@ -32,6 +32,25 @@ export const PARSER = {
             value: false
         })
     },
+    chems: {
+        group: false,
+        carryLoad: (qty, data) => {
+            var load = data["Load"].split(" ");
+            if (load.length === 1) return parseInt(load[0]) * qty;
+            else return parseInt(load[0]) * Math.floor(qty / 10);
+        },
+        extra: () => undefined
+    },
+    robot_overclock_programs: {
+        group: false,
+        carryLoad: (qty, data) => Math.floor(qty / 10),
+        extra: () => undefined
+    },
+    food_and_drink: {
+        group: false,
+        carryLoad: (qty, data) => parseInt(data["Load"]) || 0 * qty,
+        extra: () => undefined
+    },
     melee_weapons: {
         group: false,
         carryLoad: (qty, data) => {
@@ -88,6 +107,16 @@ export const PARSER = {
         carryLoad: (qty, data) => parseInt(data["Load"].split(": ")[1]) * qty,
         extra: () => undefined
     },
+    skill_magazines: {
+        group: false,
+        carryLoad: () => 0,
+        extra: () => undefined
+    },
+    other_equipments: {
+        group: false,
+        carryLoad: (qty, data) => parseInt(data["Load"]) || 0 * qty,
+        extra: () => undefined
+    },    
 }
 
 export class InventoryItem {
