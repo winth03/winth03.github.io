@@ -3,103 +3,7 @@
 import { Accordion, Button, Container, Form, FormControl, ListGroup, Spinner, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-
-const numericRegex = new RegExp("^(0|[1-9][0-9]*)$");
-
-class TurnManager {
-    constructor(callback) {
-        this.currentTurn = 0;
-        this.APmax = 10;
-        this.turnQueue = [[]];
-        this.fullRecycle = false;
-        this.loaded = false;
-        this.callback = callback;
-    }
-
-    nextTurn() {
-        const APleft = this._calculateAP();
-        if (APleft < 0) return alert("You do not have enough AP to end your turn.");
-
-        this.turnQueue.push([]);
-        this.currentTurn++;
-
-        if (this.callback) this.callback();
-    }
-
-    rollbackTurn() {
-        if (this.currentTurn === 0) return alert("You cannot rollback any further.");
-
-        this.turnQueue.pop();
-        this.currentTurn--;
-
-        if (this.callback) this.callback();
-    }
-
-    _calculateRecycledAP(turn = this.currentTurn) {
-        if (turn < 1) return 0;
-        const APleft = this._calculateAP(turn - 1);
-        if (this.fullRecycle) return APleft;
-        return Math.floor(APleft / 2);
-    }
-
-    _calculateAP(turn = this.currentTurn) {
-        if (turn < 0 || turn >= this.turnQueue.length) return 0;
-        var currentTurn = this.turnQueue[turn];
-        var currentAP = Math.min(this.APmax + this._calculateRecycledAP(turn), 15);
-        currentTurn.forEach(action => {
-            if (!numericRegex.test(action.apCost)) return;
-            currentAP -= parseInt(action.apCost);
-        });
-        return currentAP;
-    }
-
-    set APmax(value) {
-        if (!numericRegex.test(value)) return;
-        this._APmax = parseInt(value) || 0;
-        if (this.callback) this.callback();
-    }
-    get APmax() {
-        return this._APmax;
-    }
-
-    get currentAP() {
-        return this._calculateAP();
-    }
-
-    addActionToQueue(action) {
-        this.turnQueue[this.currentTurn].push(action);
-
-        if (this.callback) this.callback();
-    }
-
-    removeActionFromQueue(actionIndex) {
-        this.turnQueue[this.currentTurn]?.splice(actionIndex, 1);
-
-        if (this.callback) this.callback();
-    }
-
-    // Save to local storage
-    save() {
-        localStorage.setItem("TurnManager", JSON.stringify(this));
-    }
-
-    // Load from local storage
-    load() {
-        const data = localStorage.getItem("TurnManager");
-        if (data) {
-            console.log("Loaded data from local storage.");
-            const loadedData = JSON.parse(data);
-            this.currentTurn = loadedData.currentTurn;
-            this.APmax = loadedData._APmax;
-            this.turnQueue = loadedData.turnQueue;
-            this.fullRecycle = loadedData.fullRecycle;
-        }
-        else console.log("No data found in local storage.");
-        this.loaded = true;
-
-        if (this.callback) this.callback();
-    }
-}
+import { TurnManager } from "./utils";
 
 export default function FalloutCombat() {
     const actionsList = [
@@ -203,16 +107,17 @@ export default function FalloutCombat() {
     const [showModal, setShowModal] = useState(false);
     const [actionInfo, setActionInfo] = useState({});
     const [activeKey, setActiveKey] = useState(TM.inst.currentTurn);
+    const [ready, setReady] = useState(false);
 
     useEffect(() => {
         if (!TM.inst.loaded) {
             console.log("Loading data from local storage.");
             TM.inst.load();
-            setActiveKey(TM.inst.currentTurn);
         } else {
             console.log("Saving data to local storage.");
             TM.inst.save();
         }
+        setActiveKey(TM.inst.currentTurn);
     }, [TM]);
 
     //#region Functions
@@ -221,21 +126,11 @@ export default function FalloutCombat() {
         setShowModal(true);
     }
 
-    function nextTurn() {
-        TM.inst.nextTurn();
-        setActiveKey(TM.inst.currentTurn);
-    }
-
-    function rollbackTurn() {
-        TM.inst.rollbackTurn();
-        setActiveKey(TM.inst.currentTurn);
-    }
-
     function updateMaxAP(event) {
-        if (event.key !== "Enter") return;
         event.preventDefault();
 
-        TM.inst.APmax = event.target.value;
+        if (event.target.value == "") TM.inst.APmax = 0;
+        else TM.inst.APmax = event.target.value;
     }
     //#endregion
 
@@ -260,9 +155,24 @@ export default function FalloutCombat() {
                         <tbody>
                             {
                                 actionsList.map((action, index) => {
+                                    var onClick = () => {
+                                        if (ready) {
+                                            action.apCost = (parseInt(action.apCost) + 2).toString();
+                                            action.action = "Ready: " + action.action;
+                                            setReady(false);
+                                        }
+                                        TM.inst.addActionToQueue(action);
+                                    };
+                                    if (action.action === "Attack") onClick = () => {
+                                        setShowModal(true);
+                                        setActionInfo(action);
+                                    };
+                                    else if (action.action === "Ready") onClick = () => {
+                                        setReady(!ready);                                    
+                                    };
                                     return (
                                         <tr key={index}>
-                                            <td><Button variant="outline-primary" onClick={() => TM.inst.addActionToQueue(action)}>{action.action}</Button> <i onClick={() => showActionInfo(action)} title={action.description} className="bi bi-info-circle" /></td>
+                                            <td><Button variant={action.action === "Ready" && ready ? "primary" : "outline-primary"} onClick={onClick}>{action.action}</Button> <i onClick={() => showActionInfo(action)} title={action.description} className="bi bi-info-circle" /></td>
                                             <td>{action.apCost}</td>
                                         </tr>
                                     );
@@ -284,10 +194,11 @@ export default function FalloutCombat() {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{TM.inst.currentAP}</td>
-                                    <td><Form><FormControl disabled={TM.inst.currentTurn !== 0} defaultValue={TM.inst.APmax} type="number" step="1" onKeyDown={updateMaxAP} /></Form></td>
-                                    <td><Button variant="warning" onClick={rollbackTurn}>Rollback Turn</Button></td>
-                                    <td><Button variant="success" onClick={nextTurn}>Next Turn</Button></td>
+                                    <td>{TM.inst.turn.APleft}</td>
+                                    <td><FormControl value={TM.inst.turn.APmax} type="number" step="1" onChange={updateMaxAP} /></td>
+                                    <td><Button variant="warning" onClick={() => TM.inst.rollbackTurn()}>Rollback</Button></td>
+                                    <td><Button variant="success" onClick={() => TM.inst.nextTurn()}>Next</Button></td>
+                                    <td><Button variant="danger" onClick={() => TM.inst.reset()}>Reset</Button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -306,7 +217,7 @@ export default function FalloutCombat() {
                                         <Accordion.Body>
                                             <ListGroup>
                                                 {
-                                                    turn.map((action, actionIndex) => {
+                                                    turn.actions.map((action, actionIndex) => {
                                                         return (
                                                             <ListGroup.Item disabled={turnIndex !== TM.inst.currentTurn} key={actionIndex} action onClick={() => TM.inst.removeActionFromQueue(actionIndex)}>{action.action}</ListGroup.Item>
                                                         );

@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Button, Card, CardBody, CardHeader, Col, Container, Form, ListGroup, ListGroupItem, Row, Spinner, Table } from "react-bootstrap";
+import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Button, Card, CardBody, CardGroup, CardHeader, Col, Container, Form, ListGroup, ListGroupItem, Row, Spinner, Table } from "react-bootstrap";
 import { toTitleCase } from "../wiki/utils";
 import { InventoryManager } from "./utils";
 
@@ -109,7 +109,8 @@ export default function FalloutInventory() {
                         </CardHeader>
                         <CardBody>
                             <Accordion flush>
-                                {itemsData ?
+                                {
+                                itemsData ?
                                     Object.keys(itemsData).map((type, index) => (
                                         <AccordionItem key={index} eventKey={type.toLowerCase()}>
                                             <AccordionHeader>{toTitleCase(type)}</AccordionHeader>
@@ -131,12 +132,46 @@ export default function FalloutInventory() {
                                     )) :
                                     <Container fluid className="d-flex justify-content-center">
                                         <Spinner />
-                                    </Container>}
+                                    </Container>
+                                }
+                                {
+                                    itemsData ?
+                                        <AccordionItem eventKey="junk">
+                                            <ListGroup>
+                                                <ListGroupItem action onClick={undefined}>Junk</ListGroupItem>
+                                            </ListGroup>
+                                        </AccordionItem> :
+                                        null
+                                }
                             </Accordion>
                         </CardBody>
                     </Card>
                 </Col>
                 <Col sm={8}>
+                    <Container fluid className="py-2">
+                        <Row className="justify-content-end">
+                            <Table className="w-50 text-nowrap m-0" striped bordered>
+                                <thead>
+                                    <tr>
+                                        <th>Caps</th>
+                                        <th>Carry Load</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="text-center">
+                                    <tr>
+                                        <td>
+                                            <Form>
+                                                <Form.Control type="number" step={1} value={inventory.inst.caps} onChange={(event) => inventory.inst.caps = event.target.value} />
+                                            </Form>
+                                        </td>
+                                        <td>
+                                            <span className="fs-3">{inventory.inst.carryLoad}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        </Row>
+                    </Container>
                     <Card>
                         <CardHeader className="d-flex justify-content-between">
                             <h2>Inventory</h2>

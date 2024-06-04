@@ -116,7 +116,12 @@ export const PARSER = {
         group: false,
         carryLoad: (qty, data) => parseInt(data["Load"]) || 0 * qty,
         extra: () => undefined
-    },    
+    },
+    junks: {
+        group: true,
+        carryLoad: (qty) => Math.floor(qty / 5),
+        extra: () => undefined
+    },
 }
 
 export class InventoryItem {
@@ -148,7 +153,11 @@ export class InventoryItem {
     get qty() {
         if (this.group) return this.groupItems.reduce((acc, item) => acc + item.qty, 0);
         return this._qty;
-    }    
+    }
+
+    get hidden() {
+        return PARSER[this.parserKey].hidden;
+    }
 
     addGroupItem(item, data, qty = 1) {
         const itemIndex = this.groupItems.findIndex(i => i.name === item);
@@ -181,7 +190,15 @@ export class InventoryManager {
     }
 
     get carryLoad() {
-        return this.items.reduce((acc, item) => acc + item.carryLoad, 0);
+        return this.items.reduce((acc, item) => acc + item.carryLoad, 0) + Math.floor(this.caps / 50);
+    }
+
+    set caps(value) {
+        this._caps = (typeof value === "string") ? parseInt(value) : value;
+        if (this.callback) this.callback();
+    }
+    get caps() {
+        return this._caps ?? 0;
     }
 
     addItem(item, key, data, qty = 1, save = true) {
@@ -231,12 +248,14 @@ export class InventoryManager {
     }
 
     save() {
-        localStorage.setItem('InventoryManager', JSON.stringify(this.items));
+        localStorage.setItem('InventoryManager', JSON.stringify(this));
         console.log("Saved inventory");
     }
 
     load() {
-        const items = JSON.parse(localStorage.getItem('InventoryManager'));
+        const loadedData = JSON.parse(localStorage.getItem('InventoryManager'));
+        const items = loadedData?.items;
+        this.caps = loadedData?._caps;
         if (items) {
             items.forEach(item => {
                 if (item.group) {
