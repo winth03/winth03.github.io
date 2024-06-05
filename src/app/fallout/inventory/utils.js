@@ -3,12 +3,12 @@ import { toTitleCase } from "../wiki/utils";
 
 export const PARSER = {
     armor: {
-        group: false,
+        group: () => false,
         carryLoad: () => 0,
         extra: () => undefined
     },
     armors: {
-        group: false,
+        group: () => false,
         carryLoad: (qty, data, extra) => {
             return (extra.value ? extra.values[0] : extra.values[1]) * qty;
         },
@@ -22,7 +22,7 @@ export const PARSER = {
         }
     },
     power_armors: {
-        group: false,
+        group: () => false,
         carryLoad: (qty, data, extra) => {
             return (extra.value ? extra.values[0] : extra.values[1]) * qty;
         },
@@ -33,7 +33,7 @@ export const PARSER = {
         })
     },
     chems: {
-        group: false,
+        group: () => false,
         carryLoad: (qty, data) => {
             var load = data["Load"].split(" ");
             if (load.length === 1) return parseInt(load[0]) * qty;
@@ -42,17 +42,17 @@ export const PARSER = {
         extra: () => undefined
     },
     robot_overclock_programs: {
-        group: false,
+        group: () => false,
         carryLoad: (qty, data) => Math.floor(qty / 10),
         extra: () => undefined
     },
     food_and_drink: {
-        group: false,
+        group: () => false,
         carryLoad: (qty, data) => parseInt(data["Load"]) || 0 * qty,
         extra: () => undefined
     },
     melee_weapons: {
-        group: false,
+        group: () => false,
         carryLoad: (qty, data) => {
             const load = parseInt(data["Load and STR Req"].split(", ")[0].split(": ")[1]);
             return load * qty;
@@ -60,7 +60,7 @@ export const PARSER = {
         extra: () => undefined
     },
     ranged_weapons: {
-        group: false,
+        group: () => false,
         carryLoad: (qty, data) => {
             const load = parseInt(data["Load and STR Req"].split(", ")[0].split(": ")[1]);
             return load * qty;
@@ -68,17 +68,17 @@ export const PARSER = {
         extra: () => undefined
     },
     ammunition: {
-        group: true,
+        group: () => true,
         carryLoad: (qty) => Math.floor(qty / 10),
         extra: () => undefined
     },
     heavy_ammunition: {
-        group: false,
+        group: () => false,
         carryLoad: (qty, data) => qty * parseInt(data["Individual Load"]),
         extra: () => undefined
     },
     items_and_gear: {
-        group: false,
+        group: () => false,
         carryLoad: (qty, data, extra) => {
             const load = parseInt(data["Load"].replace(/[\(\)]/ig, "").split(" ", 1)[0]);
             if (extra) return (extra.value ? extra.values[0] : extra.values[1]) * qty;
@@ -103,47 +103,66 @@ export const PARSER = {
         }
     },
     explosives: {
-        group: false,
+        group: () => false,
         carryLoad: (qty, data) => parseInt(data["Load"].split(": ")[1]) * qty,
         extra: () => undefined
     },
     skill_magazines: {
-        group: false,
+        group: () => false,
         carryLoad: () => 0,
         extra: () => undefined
     },
     other_equipments: {
-        group: false,
+        group: () => false,
         carryLoad: (qty, data) => parseInt(data["Load"]) || 0 * qty,
         extra: () => undefined
     },
-    junks: {
-        group: true,
+    junk: {
+        group: () => true,
         carryLoad: (qty) => Math.floor(qty / 5),
         extra: () => undefined
     },
+    custom: {
+        group: (data) => data.group,
+        carryLoad: (qty, data, extra) => {
+            if (!data) return 0;
+            else if (extra) return (extra.value ? extra.values[0] : extra.values[1]) * qty;
+            else if (data.groupQPL) return Math.floor(qty / data.groupQPL) * data.load;
+            else return (data.load || 0) * qty;
+        },
+        extra: (data) => {
+            if (!data.extra) return undefined;
+            else return {
+                label: data.extra.label,
+                values: data.extra.values,
+                value: false
+            };
+        }
+    }
 }
 
-export class InventoryItem {
+export class InventoryItem {    
     constructor(item, qty, parserKey, data, root = true) {
         const extraData = PARSER[parserKey].extra(data);
-        this.group = (extraData || PARSER[parserKey].group) && root;
-        this.name = (this.group && root) ? toTitleCase(parserKey) : item;
+        this.group = (extraData || PARSER[parserKey].group(data)) && root;
+        this.name = (this.group && root) ? (data.groupName || parserKey) : item;
         this.parserKey = parserKey;
         this.groupItems = [];        
         this.extra = extraData;
+        this.data = data;
         
         if (this.group) {
             this.addGroupItem(item, data, qty);
         } else {
             this.qty = qty;
-            this.data = data;
         }
     }
 
     get carryLoad() {
         if (this.extra && this.group) return this.groupItems.reduce((acc, item) => acc + item.carryLoad, 0);
-        else return PARSER[this.parserKey].carryLoad(this.qty, this.data, this.extra);
+        else {            
+            return PARSER[this.parserKey].carryLoad(this.qty, this.data, this.extra);
+        }
     }
 
     set qty(qty) {
@@ -153,10 +172,6 @@ export class InventoryItem {
     get qty() {
         if (this.group) return this.groupItems.reduce((acc, item) => acc + item.qty, 0);
         return this._qty;
-    }
-
-    get hidden() {
-        return PARSER[this.parserKey].hidden;
     }
 
     addGroupItem(item, data, qty = 1) {
@@ -173,7 +188,6 @@ export class InventoryItem {
         if (itemIndex !== -1) {
             this.groupItems[itemIndex].qty += amount;
             if (this.groupItems[itemIndex].qty <= 0) {
-                console.log("Removing item", this.groupItems[itemIndex].name);
                 manager.removeItem(`${this.name}_${itemIndex}`);
             }
         } else if (amount > 0) {
@@ -204,10 +218,10 @@ export class InventoryManager {
     addItem(item, key, data, qty = 1, save = true) {
         const keyList = key.split("-").map(e => e.split(".")[0].replace(" ", "_").toLowerCase()).reverse();
         const parserKey = keyList.find(e => Object.keys(PARSER).includes(e));
-        const itemIndex = Math.max(this.items.findIndex(i => i.name === item), this.items.findIndex(i => i.name === toTitleCase(parserKey)));
+        const itemIndex = Math.max(this.items.findIndex(i => i.name === item), this.items.findIndex(i => i.name === parserKey || i.name === data.groupName));
         if (itemIndex === -1) {
-            // get first key that is in PARSER
-            this.items.push(new InventoryItem(item, qty, parserKey, data, true));
+            const newItem = new InventoryItem(item, qty, parserKey, data);
+            this.items.push(newItem);
         } else {            
             if (this.items[itemIndex].group) {
                 this.items[itemIndex].addGroupItem(item, data, qty);
