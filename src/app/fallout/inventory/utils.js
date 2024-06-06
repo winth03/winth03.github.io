@@ -48,7 +48,7 @@ export const PARSER = {
     },
     food_and_drink: {
         group: () => false,
-        carryLoad: (qty, data) => parseInt(data["Load"]) || 0 * qty,
+        carryLoad: (qty, data) => (parseInt(data["Load"]) || 0) * qty,
         extra: () => undefined
     },
     melee_weapons: {
@@ -114,7 +114,7 @@ export const PARSER = {
     },
     other_equipments: {
         group: () => false,
-        carryLoad: (qty, data) => parseInt(data["Load"]) || 0 * qty,
+        carryLoad: (qty, data) => (parseInt(data["Load"]) || 0) * qty,
         extra: () => undefined
     },
     junk: {
