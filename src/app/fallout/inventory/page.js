@@ -219,7 +219,7 @@ export default function FalloutInventory() {
                                         inventory.inst.items.reduce((acc, item, index) => {
                                             if (item.extra || item.group) {
                                                 return acc.concat(item.groupItems.map((groupItem, groupIndex) => {
-                                                    const itemKey = `${item.name}_${groupIndex}`;
+                                                    const itemKey = `${item.name}/${groupIndex}`;
                                                     return (
                                                         <tr key={itemKey}>
                                                             <td>{toTitleCase(groupItem.name)}</td>

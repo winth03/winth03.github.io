@@ -188,7 +188,7 @@ export class InventoryItem {
         if (itemIndex !== -1) {
             this.groupItems[itemIndex].qty += amount;
             if (this.groupItems[itemIndex].qty <= 0) {
-                manager.removeItem(`${this.name}_${itemIndex}`);
+                manager.removeItem(`${this.name}/${itemIndex}`);
             }
         } else if (amount > 0) {
             manager.addItem(item, this.parserKey, data, amount, true);
@@ -231,8 +231,9 @@ export class InventoryManager {
     }
 
     removeItem(itemKey) {
-        var [item, groupIndex] = itemKey.split("_");
-        groupIndex = parseInt(groupIndex) === 0 ? 0 : parseInt(groupIndex) || -1;
+        var [item, groupIndex] = itemKey.split("/");
+        console.log(item, groupIndex);
+        groupIndex = parseInt(groupIndex) === 0 ? 0 : (parseInt(groupIndex) || -1);
         if (groupIndex !== -1) {
             this.items.find(i => i.name === item).groupItems.splice(groupIndex, 1);
         }
