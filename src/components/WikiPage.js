@@ -15,7 +15,7 @@ export default function WikiPage({ title, jsonData, csvData }) {
       } else if (typeof value === 'object') {
         return (
           <div key={key} className='ps-4'>
-            {key == 'subsections' ? null : React.createElement(headerSteps[step], { children: toTitleCase(key) })}
+            {key == 'subsections' ? null : React.createElement(headerSteps[step], toTitleCase(key) )}
             {renderContent(value, Math.min(key == 'subsections' ? step : (step + 1), headerSteps.length-1))}
           </div>
         );
