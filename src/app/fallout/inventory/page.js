@@ -1,8 +1,8 @@
 "use client"
 import { useEffect, useState } from "react";
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Button, Card, CardBody, CardGroup, CardHeader, Col, Container, Form, ListGroup, ListGroupItem, Modal, Row, Spinner, Table } from "react-bootstrap";
-import { toTitleCase } from "../wiki/utils";
-import { InventoryManager } from "./utils";
+import { toTitleCase } from "../utils/utils";
+import { InventoryManager } from "../utils/InventoryManager";
 
 export default function FalloutInventory() {
     const [inventory, setInventory] = useState({ inst: new InventoryManager(() => setInventory({inst: inventory.inst})) });

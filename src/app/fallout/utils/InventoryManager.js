@@ -1,5 +1,5 @@
 import { Form } from "react-bootstrap";
-import { toTitleCase } from "../wiki/utils";
+import { toTitleCase } from "./utils";
 
 export const PARSER = {
     armor: {

@@ -1,0 +1,51 @@
+import { notFound } from 'next/navigation';
+import fs from 'fs/promises';
+import path from 'path';
+import Papa from 'papaparse';
+import WikiPage from '@/components/WikiPage';
+import Link from 'next/link';
+import { getWikiPage } from '@/app/fallout/utils/wiki'
+
+export default async function Page({ params }) {
+    const slugPath = params.slug.join('/');
+    const dirPath = path.join(process.cwd(), 'public', 'fallout', 'wiki', slugPath);
+
+    let jsonData = null;
+    let csvData = [];
+
+    try {
+        const files = await fs.readdir(dirPath);
+
+        for (const file of files) {
+            if (file.endsWith('.json')) {
+                const jsonContent = await fs.readFile(path.join(dirPath, file), 'utf8');
+                jsonData = JSON.parse(jsonContent);
+            } else if (file.endsWith('.csv')) {
+                const csvContent = await fs.readFile(path.join(dirPath, file), 'utf8');
+                csvData.push({
+                    name: file,
+                    data: Papa.parse(csvContent).data
+                });
+            }
+        }
+    } catch (error) {
+        console.error('Error reading directory:', error);
+        notFound();
+    }
+
+    if (!jsonData && !csvData) {
+        notFound();
+    }
+
+    return (
+        <>
+            <Link href="/fallout/wiki">Back to Index</Link>
+            <WikiPage title={params.slug[params.slug.length - 1]} jsonData={jsonData} csvData={csvData} />
+        </>
+    );
+}
+
+export async function generateStaticParams() {
+    const paths = await getWikiPage();
+    return paths;
+}

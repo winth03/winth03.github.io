@@ -3,7 +3,7 @@
 import { Accordion, Button, Container, Form, FormControl, ListGroup, Spinner, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { TurnManager } from "./utils";
+import { TurnManager } from "../utils/TurnManager";
 
 export default function FalloutCombat() {
     const actionsList = [
