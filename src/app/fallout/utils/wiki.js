@@ -27,7 +27,7 @@ export async function getAllPaths(dir = 'public/fallout/wiki', paths = []) {
                     content: content
                 });
             } else {
-                item.content = content;
+                item.content += content;
             }
         }
     }

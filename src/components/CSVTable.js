@@ -1,5 +1,5 @@
 import { Table } from "react-bootstrap";
-import { toTitleCase } from "../app/fallout/wiki/utils";
+import { toTitleCase } from "@/app/fallout/wiki/utils";
 
 export default function CSVTable({ csv }) {
     return (

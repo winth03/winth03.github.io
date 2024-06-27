@@ -3,7 +3,7 @@
 import { Accordion, Button, Container, Form, FormControl, ListGroup, Spinner, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { TurnManager } from "../utils/TurnManager";
+import { TurnManager } from "@/app/fallout/utils/TurnManager";
 
 export default function FalloutCombat() {
     const actionsList = [
@@ -155,7 +155,7 @@ export default function FalloutCombat() {
                         <tbody>
                             {
                                 actionsList.map((action, index) => {
-                                    var onClick = () => {
+                                    let onClick = () => {
                                         if (ready) {
                                             action.apCost = (parseInt(action.apCost) + 2).toString();
                                             action.action = "Ready: " + action.action;

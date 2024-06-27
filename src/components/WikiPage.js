@@ -56,26 +56,6 @@ export default function WikiPage({ title, jsonData, csvData }) {
       <h1>{toTitleCase(title)}</h1>
       {jsonData && renderContent(jsonData)}
       {csvData && renderTable(csvData)}
-      {/* {csvData && (
-        <Table striped bordered hover className="mt-4">
-          <thead>
-            <tr>
-              {csvData[0].map((header, index) => (
-                <th key={index}>{toTitleCase(header)}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {csvData.slice(1).map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {row.map((cell, cellIndex) => (
-                  <td key={cellIndex}>{cell}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      )} */}
     </Container>
   );
 }

@@ -35,7 +35,7 @@ export const PARSER = {
     chems: {
         group: () => false,
         carryLoad: (qty, data) => {
-            var load = data["Load"].split(" ");
+            let load = data["Load"].split(" ");
             if (load.length === 1) return parseInt(load[0]) * qty;
             else return parseInt(load[0]) * Math.floor(qty / 10);
         },
@@ -230,8 +230,21 @@ export class InventoryManager {
         if (this.callback && save) this.callback();
     }
 
+    updateItemQuantity(itemKey, amount) {
+        let [item, groupIndex] = itemKey.split("/");
+        groupIndex = parseInt(groupIndex) === 0 ? 0 : (parseInt(groupIndex) || -1);
+        if (groupIndex !== -1) {
+            this.items.find(i => i.name === item).groupItems[groupIndex].qty = amount;
+            if (this.items.find(i => i.name === item).groupItems[groupIndex].qty <= 0) {
+                this.removeItem(itemKey);
+            }
+        }
+        else this.items.find(i => i.name === item).qty = amount;
+        if (this.callback) this.callback();
+    }
+
     removeItem(itemKey) {
-        var [item, groupIndex] = itemKey.split("/");
+        let [item, groupIndex] = itemKey.split("/");
         console.log(item, groupIndex);
         groupIndex = parseInt(groupIndex) === 0 ? 0 : (parseInt(groupIndex) || -1);
         if (groupIndex !== -1) {
@@ -244,16 +257,16 @@ export class InventoryManager {
     setExtra(item, groupItem, value) {
         const label = groupItem.extra.label;
         const name = groupItem.name;
-        var data = groupItem.data;
+        let data = groupItem.data;
         // If value is true add a new item with the extra value and remove 1 of the old one
         if (value) {
-            var newItemName = `${name} (${toTitleCase(label)})`;
+            let newItemName = `${name} (${toTitleCase(label)})`;
             item.changeGroupItemQty(newItemName, data, 1, this);
             item.groupItems.find(i => i.name === newItemName).extra.value = true;
             item.changeGroupItemQty(name, data, -1, this);
         } else {
             item.changeGroupItemQty(name, data, -1, this);
-            var newItemName = name.split(" ");
+            let newItemName = name.split(" ");
             newItemName.pop();
             newItemName = newItemName.join(" ");
             item.changeGroupItemQty(newItemName, data, 1, this);

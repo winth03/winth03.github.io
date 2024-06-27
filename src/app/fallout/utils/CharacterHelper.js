@@ -1,7 +1,7 @@
-// var __decorate = function (decorators, target, key, desc) {
-//     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+// let __decorate = function (decorators, target, key, desc) {
+//     let c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
 //     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-//     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+//     else for (let i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
 //     return c > 3 && r && Object.defineProperty(target, key, r), r;
 // };
 
@@ -27,9 +27,9 @@ export class Perk {
     }
 
     wrap(obj) {
-        var fn = this.fn.bind(this);
+        let fn = this.fn.bind(this);
         this.target.forEach(target => {
-            var originalMethod = obj[target];
+            let originalMethod = obj[target];
             if (typeof originalMethod !== "function") {
                 originalMethod = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(obj), target)?.get?.bind(obj);
                 if (typeof originalMethod !== "function") {
@@ -37,7 +37,7 @@ export class Perk {
                 }
                 Object.defineProperty(obj, target, {
                     get: function () {
-                        var result = originalMethod();
+                        let result = originalMethod();
                         console.log(result);
                         return fn(result);
                     }
@@ -45,7 +45,7 @@ export class Perk {
             } else {
                 originalMethod = originalMethod.bind(obj)
                 obj[target] = function (...args) {
-                    var result = originalMethod(...args);
+                    let result = originalMethod(...args);
                     return fn(result);
                 };
             }

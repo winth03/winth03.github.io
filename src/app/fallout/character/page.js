@@ -1,8 +1,8 @@
-import { FalloutCharacter } from "../utils/CharacterManager";
-import { Perk } from "../utils/CharacterHelper";
+import { FalloutCharacter } from "@/app/fallout/utils/CharacterManager";
+import { Perk } from "@/app/fallout/utils/CharacterHelper";
 
 export default function FalloutCharacterPage() {
-    var character = new FalloutCharacter("Win", "Human", {
+    let character = new FalloutCharacter("Win", "Human", {
         strength: 8,
         perception: 5,
         endurance: 5,
@@ -11,7 +11,7 @@ export default function FalloutCharacterPage() {
         agility: 5,
         luck: 5
     });
-    var testPerk = new Perk("Test Perk", (mod) => ({...mod, intelligence: mod.intelligence + 1}), ["modifier"]);
+    let testPerk = new Perk("Test Perk", (mod) => ({...mod, intelligence: mod.intelligence + 1}), ["modifier"]);
     character.addPerk(testPerk);
 
     return (

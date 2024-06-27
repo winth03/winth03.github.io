@@ -34,6 +34,7 @@ export default async function Page({ params }) {
     }
 
     if (!jsonData && !csvData) {
+        console.error('No data found for page:', slugPath);
         notFound();
     }
 
