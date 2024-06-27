@@ -131,28 +131,39 @@ export default class TurnManager {
 
     // Load from local storage
     load() {
-        const data = JSON.parse(localStorage.getItem("TurnManager"));
-        if (data) {
-            console.log("Loaded data from local storage.", data);
-            this.currentTurn = 0;
-            data.turnQueue.forEach((turn, turnIndex) => {
-                if (turnIndex === 0) {
-                    this.turnQueue[this.currentTurn] = new Turn(turn._APmax, turn.fullRecycle, turn.dying, turn.lastTurn);
-                } else {
-                    this.nextTurn(false);
-                    this.APmax = turn._APmax;
-                    this.fullRecycle = turn.fullRecycle;
-                    this.dying = turn.dying;
-                }
-                turn.actions.forEach(action => {
-                    this.addActionToQueue(action, false);
+        try {
+            const data = JSON.parse(localStorage.getItem("TurnManager"));
+            if (data) {
+                console.log("Loaded data from local storage.", data);
+                this.currentTurn = 0;
+                data.turnQueue.forEach((turn, turnIndex) => {
+                    if (turnIndex === 0) {
+                        this.turnQueue[this.currentTurn] = new Turn(turn._APmax, turn.fullRecycle, turn.dying, turn.lastTurn);
+                    } else {
+                        this.nextTurn(false);
+                        this.APmax = turn._APmax;
+                        this.fullRecycle = turn.fullRecycle;
+                        this.dying = turn.dying;
+                    }
+                    turn.actions.forEach(action => {
+                        this.addActionToQueue(action, false);
+                    });
                 });
-            });
-        }
-        else console.log("No data found in local storage.");
-        this.loaded = true;
+            }
+            else console.log("No data found in local storage.");
+            this.loaded = true;
 
-        this.triggerCallback();
+            this.triggerCallback();
+        } catch (error) {
+            console.error("Error loading data from local storage.", error);
+            this.handleLoadError();
+        }
+    }
+
+    handleLoadError() {
+        localStorage.removeItem("TurnManager");
+        this.reset();
+        this.loaded = true;
     }
 
     triggerCallback() {
