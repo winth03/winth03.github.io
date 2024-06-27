@@ -70,7 +70,7 @@ function ItemsAccordion({ data, depth = 0, onItemSelect }) {
         <Modal.Header closeButton>
           <Modal.Title>{selectedItem && Object.values(selectedItem[0])[0]}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className='overflow-auto'>
           {selectedItem && (
             <Table striped bordered hover>
               <thead>

@@ -26,18 +26,18 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human Cultist": {
-                            "content": "x1 cloth armor (with a rank 1 lead lined upgrade) , x1 knife, x1 bolt-action pipe pistol, x15 9mm bullets, x1 backpack, x1 chain, x3 cram, x1 diluted RadAway, x1 Rad-X, x1 healing powder, x3 dirty water, x1 purified water, and x50 caps. \u2022",
+                            "content": "x1 cloth armor (with a rank 1 lead lined upgrade) , x1 knife, x1 bolt-action pipe pistol, x15 9mm bullets, x1 backpack, x1 chain, x3 cram, x1 diluted RadAway, x1 Rad-X, x1 healing powder, x3 dirty water, x1 purified water, and x50 caps. ",
                             "subsections": {}
                         },
                         "Ghoul or Super Mutant Cultist": {
-                            "content": "x1 leather armor, x1 knife, x1 bolt-action pipe pistol, x15 9mm bullets, x1 backpack, x1 chain, x3 cram, x4 dirty water, x1 stimpak, x1 diluted stimpak, and x50 caps. \u2022",
+                            "content": "x1 leather armor, x1 knife, x1 bolt-action pipe pistol, x15 9mm bullets, x1 backpack, x1 chain, x3 cram, x4 dirty water, x1 stimpak, x1 diluted stimpak, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth Cultist": {
-                            "content": "x1 leather armor, x1 knife, x1 bolt-action pipe pistol, x15 9mm bullets, x1 backpack, x1 chain, x1 diluted stimpak, x1 RobCo Quick Fix-it 1.0, x1 overclock hardware, x1 cache clearer, and x50 caps. \u2022",
+                            "content": "x1 leather armor, x1 knife, x1 bolt-action pipe pistol, x15 9mm bullets, x1 backpack, x1 chain, x1 diluted stimpak, x1 RobCo Quick Fix-it 1.0, x1 overclock hardware, x1 cache clearer, and x50 caps. ",
                             "subsections": {}
                         },
                         "Robot Cultist": {
@@ -60,10 +60,10 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human, Ghoul, or Super Mutant Doctor": {
-                            "content": "x1 cloth armor, x1 knife with four levels of decay, x1 syringer, x2 stimpak loader syringes, x1 lock joint syringe, x1 backpack, x1 first aid kit, x2 diluted stimpaks, x1 diluted RadAway, x1 Rad-X, x1 healing powder, a sleeping bag, one person tent, x1 noodle cup, x1 instamash, x2 purified water, and x50 caps. \u2022",
+                            "content": "x1 cloth armor, x1 knife with four levels of decay, x1 syringer, x2 stimpak loader syringes, x1 lock joint syringe, x1 backpack, x1 first aid kit, x2 diluted stimpaks, x1 diluted RadAway, x1 Rad-X, x1 healing powder, a sleeping bag, one person tent, x1 noodle cup, x1 instamash, x2 purified water, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Doctor": {
@@ -86,10 +86,10 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human, Ghoul, or Super Mutant Drifter": {
-                            "content": "x1 cloth armor, x1 shiv, x1 pipe pistol with two levels of decay, x15 9mm bullets, x1 backpack, x5 canned dog food, x1 iguana on a stick, x2 healing powder, x4 dirty water, x2 purified water, x1 lockpicks, x1 one person tent, x1 sleeping bag, x1 whiskey, x1 fixer, x2 jet, x3 cigarettes, x1 psycho, x1 coffee and x50 caps. \u2022",
+                            "content": "x1 cloth armor, x1 shiv, x1 pipe pistol with two levels of decay, x15 9mm bullets, x1 backpack, x5 canned dog food, x1 iguana on a stick, x2 healing powder, x4 dirty water, x2 purified water, x1 lockpicks, x1 one person tent, x1 sleeping bag, x1 whiskey, x1 fixer, x2 jet, x3 cigarettes, x1 psycho, x1 coffee and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Drifter": {
@@ -112,10 +112,10 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human, Ghoul, or Super Mutant Entertainer": {
-                            "content": "x1 cloth armor, x1 switchblade, x1 10mm pistol with three levels of decay, x10 10mm ammo, x1 backpack, x2 dynamite, x3 flares, x3 salisbury steak, x1 desert salad, x1 nuka-cola, x1 dirty wastelander, x1 healing powder, x1 stimpak, x2 purified water, and x50 caps. \u2022",
+                            "content": "x1 cloth armor, x1 switchblade, x1 10mm pistol with three levels of decay, x10 10mm ammo, x1 backpack, x2 dynamite, x3 flares, x3 salisbury steak, x1 desert salad, x1 nuka-cola, x1 dirty wastelander, x1 healing powder, x1 stimpak, x2 purified water, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Entertainer": {
@@ -138,10 +138,10 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human, Ghoul or Super Mutant Farmer.": {
-                            "content": "x1 cloth armor, x1 pitchfork with five levels of decay, x1 single shotgun with three levels of decay, x8 12 gauge ammo, x1 backpack, x1 healing powder, x5 potatoes, x5 tomatoes, x5 mutfruit, x4 purified water, and x50 caps. \u2022",
+                            "content": "x1 cloth armor, x1 pitchfork with five levels of decay, x1 single shotgun with three levels of decay, x8 12 gauge ammo, x1 backpack, x1 healing powder, x5 potatoes, x5 tomatoes, x5 mutfruit, x4 purified water, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Farmer": {
@@ -164,10 +164,10 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human, Ghoul or Super Mutant Farmer.": {
-                            "content": "x1 metal armor with one level of decay 225, x1 police baton with two levels of decay 84, x1 9mm pistol 200, x20 9mm ammo 40, x10 9mm rubber ammo 10c, x1 backpack 20, x1 sleeping bag 20, x1 one person tent 25, x1 binoculars 25c, x1 diluted stimpak 40, x3 purified water 60, x2 pork n\u2019 beans 10c, x1 coffee 15c, x2 donuts 16, and x50 caps. \u2022",
+                            "content": "x1 metal armor with one level of decay 225, x1 police baton with two levels of decay 84, x1 9mm pistol 200, x20 9mm ammo 40, x10 9mm rubber ammo 10c, x1 backpack 20, x1 sleeping bag 20, x1 one person tent 25, x1 binoculars 25c, x1 diluted stimpak 40, x3 purified water 60, x2 pork n\u2019 beans 10c, x1 coffee 15c, x2 donuts 16, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Farmer": {
@@ -190,14 +190,14 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human Hermit": {
-                            "content": "x1 multilayered armor with two levels of decay, x1 sharpened pole, x2 dynamite, x1 backpack, x1 sleeping bag, x1 one person tent, x1 bear trap, x1 mutt chops, x1 gecko steak, x1 diluted RadAway, x3 healing powder, x1 first aid kit, x1 purified water, x2 dirty water, and x50 caps. \u2022",
+                            "content": "x1 multilayered armor with two levels of decay, x1 sharpened pole, x2 dynamite, x1 backpack, x1 sleeping bag, x1 one person tent, x1 bear trap, x1 mutt chops, x1 gecko steak, x1 diluted RadAway, x3 healing powder, x1 first aid kit, x1 purified water, x2 dirty water, and x50 caps. ",
                             "subsections": {}
                         },
                         "Ghoul or Super Mutant Hermit": {
-                            "content": "x1 multilayered armor with two levels of decay, x1 sharpened pole, x2 dynamite, x1 backpack, x1 sleeping bag, x1 one person tent, x1 bear trap, x1 mutt chops, x1 gecko steak, x1 iguana on a stick, x4 healing powder, x1 first aid kit, x4 dirty water, and x50 caps. \u2022",
+                            "content": "x1 multilayered armor with two levels of decay, x1 sharpened pole, x2 dynamite, x1 backpack, x1 sleeping bag, x1 one person tent, x1 bear trap, x1 mutt chops, x1 gecko steak, x1 iguana on a stick, x4 healing powder, x1 first aid kit, x4 dirty water, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Hermit": {
@@ -220,14 +220,14 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human Journalist": {
-                            "content": "x1 cloth armor, x1 switchblade, x1 9mm pistol with three levels of decay, x13 9mm bullets, x1 backpack, x1 flashlight, x1 energy cell 30, x1 bandolier, x1 lockpicks, x3 cram, x1 diluted RadAway, x1 Rad-X, x1 diluted stimpak, x3 purified water, and x50 caps. \u2022",
+                            "content": "x1 cloth armor, x1 switchblade, x1 9mm pistol with three levels of decay, x13 9mm bullets, x1 backpack, x1 flashlight, x1 energy cell 30, x1 bandolier, x1 lockpicks, x3 cram, x1 diluted RadAway, x1 Rad-X, x1 diluted stimpak, x3 purified water, and x50 caps. ",
                             "subsections": {}
                         },
                         "Ghoul or Super Mutant Journalist": {
-                            "content": "x1 cloth armor, x1 switchblade, x1 9mm pistol with three levels of decay, x13 9mm bullets, x1 backpack, x1 flashlight, x1 energy cell, x1 bandolier, x1 lockpicks, x3 cram, x1 diluted stimpak, x1 calmex, x3 purified water, and x50 caps. \u2022",
+                            "content": "x1 cloth armor, x1 switchblade, x1 9mm pistol with three levels of decay, x13 9mm bullets, x1 backpack, x1 flashlight, x1 energy cell, x1 bandolier, x1 lockpicks, x3 cram, x1 diluted stimpak, x1 calmex, x3 purified water, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Journalist": {
@@ -250,14 +250,14 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human or Super Mutant Laborer": {
-                            "content": "x1 cloth armor, x1 crowbar, x1 pipe pistol with two levels of decay, x10 9mm bullets, x1 backpack, x1 canteen, x1 rope, x1 sleeping bag, x1 one person tent, x1 potato crisps, x2 instamash, x1 radstag stew, x2 purified water, x2 healing powder, and x50 caps. \u2022",
+                            "content": "x1 cloth armor, x1 crowbar, x1 pipe pistol with two levels of decay, x10 9mm bullets, x1 backpack, x1 canteen, x1 rope, x1 sleeping bag, x1 one person tent, x1 potato crisps, x2 instamash, x1 radstag stew, x2 purified water, x2 healing powder, and x50 caps. ",
                             "subsections": {}
                         },
                         "Ghoul Laborer": {
-                            "content": "x1 cloth armor, x1 crowbar, x1 pipe pistol with two levels of decay, x10 9mm bullets, x1 backpack, x1 canteen, x1 rope, x1 sleeping bag, x1 one person tent, x1 potato crisps, x2 instamash, x1 radstag stew, x4 dirty water, x1 stimpak, and x50 caps. \u2022",
+                            "content": "x1 cloth armor, x1 crowbar, x1 pipe pistol with two levels of decay, x10 9mm bullets, x1 backpack, x1 canteen, x1 rope, x1 sleeping bag, x1 one person tent, x1 potato crisps, x2 instamash, x1 radstag stew, x4 dirty water, x1 stimpak, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Laborer": {
@@ -280,10 +280,10 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human, Ghoul, or Super Mutant Mechanic": {
-                            "content": "x1 cloth armor, x1 wrench, x1 pipe revolver, x10 .44 bullets, x1 backpack, x1 bandolier, x1 canteen, x1 rope, x1 sleeping bag, x1 one person tent, x3 cram, x3 purified water, x1 weapon repair kit, and x50 caps. \u2022",
+                            "content": "x1 cloth armor, x1 wrench, x1 pipe revolver, x10 .44 bullets, x1 backpack, x1 bandolier, x1 canteen, x1 rope, x1 sleeping bag, x1 one person tent, x3 cram, x3 purified water, x1 weapon repair kit, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Laborer": {
@@ -306,10 +306,10 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human, Ghoul, or Super Mutant Mercenary.": {
-                            "content": "x1 leather armor, x1 combat knife with two levels of decay, x1 trail carbine with two levels of decay, x10 .44 bullets, x1 backpack, x2 cram, x1 sleeping bag, x1 one person tent, x1 diluted stimpak, x1 purified water, and x50 caps. \u2022",
+                            "content": "x1 leather armor, x1 combat knife with two levels of decay, x1 trail carbine with two levels of decay, x10 .44 bullets, x1 backpack, x2 cram, x1 sleeping bag, x1 one person tent, x1 diluted stimpak, x1 purified water, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Mercenary.": {
@@ -328,10 +328,10 @@
                     "subsections": {}
                 },
                 "Trait:": {
-                    "content": "Embolden Born into the church you\u2019ve brought hope and sanctity to many who were lost in the darkness. Your words of encouragement have brought many into your circle and you\u2019ve crafted a small community of believers who hope to shape the world and themselves into a better place, whatever they believe in. Even still, you\u2019ve seen your fair share of skeptics, some even hostile. You\u2019ve learned to accept their criticisms and always front your belief, but never to let it waver you. You\u2019re wandering the wasteland now in search of other believers, or proof of your higher powers' existence. \u2022",
+                    "content": "Embolden Born into the church you\u2019ve brought hope and sanctity to many who were lost in the darkness. Your words of encouragement have brought many into your circle and you\u2019ve crafted a small community of believers who hope to shape the world and themselves into a better place, whatever they believe in. Even still, you\u2019ve seen your fair share of skeptics, some even hostile. You\u2019ve learned to accept their criticisms and always front your belief, but never to let it waver you. You\u2019re wandering the wasteland now in search of other believers, or proof of your higher powers' existence. ",
                     "subsections": {
                         "Human, Ghoul, or Super Mutant Pastor": {
-                            "content": "x1 cloth armor, x1 single shotgun with three levels of decay, x8 12 gauge ammo, x1 backpack, x1 sleeping bag, x1 one person tent, x3 pork \u2018n beans, x1 donut, x1 coffee, x3 purified water, x1 first aid kit, x3 healing powder, and x50 caps. \u2022",
+                            "content": "x1 cloth armor, x1 single shotgun with three levels of decay, x8 12 gauge ammo, x1 backpack, x1 sleeping bag, x1 one person tent, x3 pork \u2018n beans, x1 donut, x1 coffee, x3 purified water, x1 first aid kit, x3 healing powder, and x50 caps. ",
                             "subsections": {}
                         },
                         "Robot or Gen-2 Synth Pastor": {
@@ -354,14 +354,14 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human Pilgrim": {
-                            "content": "x1 leather armor with the light upgrade , x1 sharpened pole, x1 laser rifle with five levels of decay, x1 energy cell, x1 backpack, x1 sleeping bag, x1 one person tent, x2 mutfruit, x2 apples, x1 vegetable soup, x2 purified water, x1 healing powder, and x50 caps. \u2022",
+                            "content": "x1 leather armor with the light upgrade , x1 sharpened pole, x1 laser rifle with five levels of decay, x1 energy cell, x1 backpack, x1 sleeping bag, x1 one person tent, x2 mutfruit, x2 apples, x1 vegetable soup, x2 purified water, x1 healing powder, and x50 caps. ",
                             "subsections": {}
                         },
                         "Ghoul or Super Mutant Pilgrim": {
-                            "content": "x1 leather armor with the light upgrade , x1 sharpened pole, x1 laser rifle with five levels of decay, x1 energy cell, x1 backpack, x1 sleeping bag, x1 one person tent, x2 mutfruit, x2 apples, x1 vegetable soup, x3 dirty water, x1 nuka-cola, x1 diluted stimpak, and x50 caps. \u2022",
+                            "content": "x1 leather armor with the light upgrade , x1 sharpened pole, x1 laser rifle with five levels of decay, x1 energy cell, x1 backpack, x1 sleeping bag, x1 one person tent, x2 mutfruit, x2 apples, x1 vegetable soup, x3 dirty water, x1 nuka-cola, x1 diluted stimpak, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Pilgrim": {
@@ -384,10 +384,10 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human Ghoul or Super Mutant Pit Fighter": {
-                            "content": "x1 lead pipe with two levels of decay, x1 brass knuckles, x1 spiked knuckles, x1 bandolier, x1 ball bearings, x1 sleeping bag, x1 one person tent, x3 cram, x1 vodka, x3 healing powder, x3 purified water, x1 diluted stimpak, and x50 caps. \u2022",
+                            "content": "x1 lead pipe with two levels of decay, x1 brass knuckles, x1 spiked knuckles, x1 bandolier, x1 ball bearings, x1 sleeping bag, x1 one person tent, x3 cram, x1 vodka, x3 healing powder, x3 purified water, x1 diluted stimpak, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen 2 Synth or Robot Cultist": {
@@ -410,10 +410,10 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human, Ghoul, or Super Mutant Scientist": {
-                            "content": "x1 cloth armor, x1 laser pistol, x2 energy cell, x1 backpack, x1 sleeping bag, x1 one person tent, x3 cram, x2 purified water, x1 diluted RadAway, x1 Rad-X, x1 stimpak, and x50 caps. \u2022",
+                            "content": "x1 cloth armor, x1 laser pistol, x2 energy cell, x1 backpack, x1 sleeping bag, x1 one person tent, x3 cram, x2 purified water, x1 diluted RadAway, x1 Rad-X, x1 stimpak, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Scientist": {
@@ -436,10 +436,10 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human, Ghoul, or Super Mutant Scientist": {
-                            "content": "x1 cloth armor, x1 laser pistol, x2 energy cell, x1 backpack, x1 sleeping bag, x1 one person tent, x3 cram, x2 purified water, x1 diluted RadAway, x1 Rad-X, x1 stimpak, and x50 caps. \u2022",
+                            "content": "x1 cloth armor, x1 laser pistol, x2 energy cell, x1 backpack, x1 sleeping bag, x1 one person tent, x3 cram, x2 purified water, x1 diluted RadAway, x1 Rad-X, x1 stimpak, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Scientist": {
@@ -462,10 +462,10 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human, Ghoul, or Super Mutant Soldier.": {
-                            "content": "x1 leather armor, x1 combat knife with two levels of decay, x1 trail carbine with two levels of decay, x10 .44 bullets, x1 backpack, x2 cram, x1 sleeping bag, x1 one person tent, x1 diluted stimpak, x1 purified water, and x50 caps. \u2022",
+                            "content": "x1 leather armor, x1 combat knife with two levels of decay, x1 trail carbine with two levels of decay, x10 .44 bullets, x1 backpack, x2 cram, x1 sleeping bag, x1 one person tent, x1 diluted stimpak, x1 purified water, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Soldier.": {
@@ -488,10 +488,10 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human, Ghoul, or Super Mutant Trader": {
-                            "content": "x1 cloth armor, x1 shiv, x1 pipe pistol with two levels of decay, x15 9mm bullets, x1 backpack, x5 canned dog food, x1 iguana on a stick, x2 healing powder, x4 dirty water, x2 purified water, x1 lockpicks, x1 one person tent, x1 sleeping bag, x1 whiskey, x1 fixer, x2 jet, x3 cigarettes, x1 psycho, x1 coffee and x50 caps. \u2022",
+                            "content": "x1 cloth armor, x1 shiv, x1 pipe pistol with two levels of decay, x15 9mm bullets, x1 backpack, x5 canned dog food, x1 iguana on a stick, x2 healing powder, x4 dirty water, x2 purified water, x1 lockpicks, x1 one person tent, x1 sleeping bag, x1 whiskey, x1 fixer, x2 jet, x3 cigarettes, x1 psycho, x1 coffee and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Trader": {
@@ -514,10 +514,10 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "The starting equipment in this background grants powerful unique items, consult with your GM before you take these items. \u2022",
+                    "content": "The starting equipment in this background grants powerful unique items, consult with your GM before you take these items. ",
                     "subsections": {
                         "Human, Ghoul, or Super Mutant Vault Dweller": {
-                            "content": "x1 vault suit, x1 10mm pistol, x10 10mm ammo, x1 backpack, x1 sleeping bag, x1 one person tent, x1 canteen, x1 weapon repair kit, x1 pip-boy (any), x1 BlamCo Mac & Cheese, x1 Salisbury Steak, Yum Yum Deviled Eggs, x1 coffee, x4 purified water, x1 stimpak. \u2022",
+                            "content": "x1 vault suit, x1 10mm pistol, x10 10mm ammo, x1 backpack, x1 sleeping bag, x1 one person tent, x1 canteen, x1 weapon repair kit, x1 pip-boy (any), x1 BlamCo Mac & Cheese, x1 Salisbury Steak, Yum Yum Deviled Eggs, x1 coffee, x4 purified water, x1 stimpak. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Vault Dweller": {
@@ -540,14 +540,14 @@
                     "subsections": {}
                 },
                 "Starting Equipment.": {
-                    "content": "\u2022",
+                    "content": "",
                     "subsections": {
                         "Human Wastelander": {
-                            "content": "x1 leather armor, x1 sharpened pole, x1 10mm pistol, x10 10mm ammo, x1 backpack, x1 sleeping bag, x1 one person tent, x2 mutfruit, x2 apples, x1 vegetable soup, x2 purified water, x1 healing powder, and x50 caps. \u2022",
+                            "content": "x1 leather armor, x1 sharpened pole, x1 10mm pistol, x10 10mm ammo, x1 backpack, x1 sleeping bag, x1 one person tent, x2 mutfruit, x2 apples, x1 vegetable soup, x2 purified water, x1 healing powder, and x50 caps. ",
                             "subsections": {}
                         },
                         "Ghoul or Super Mutant Wastelander": {
-                            "content": "x1 leather armor, x1 sharpened pole, x1 10mm pistol, x10 10mm ammo, x1 backpack, x1 sleeping bag, x1 one person tent, x2 mutfruit, x2 apples, x1 vegetable soup, x3 dirty water, x1 nuka-cola, x1 diluted stimpak, and x50 caps. \u2022",
+                            "content": "x1 leather armor, x1 sharpened pole, x1 10mm pistol, x10 10mm ammo, x1 backpack, x1 sleeping bag, x1 one person tent, x2 mutfruit, x2 apples, x1 vegetable soup, x3 dirty water, x1 nuka-cola, x1 diluted stimpak, and x50 caps. ",
                             "subsections": {}
                         },
                         "Gen-2 Synth or Robot Wastelander": {

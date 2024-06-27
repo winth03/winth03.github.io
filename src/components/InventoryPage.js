@@ -6,8 +6,8 @@ import { InventoryManager } from "@/app/fallout/utils/InventoryManager";
 import ItemsAndCostsComponent from "@/components/ItemsAndCosts";
 import CalculatorInput from "@/components/CalculatorInput";
 
-export default function FalloutInventory({itemsData}) {
-    const [inventory, setInventory] = useState({ inst: new InventoryManager(() => setInventory({inst: inventory.inst})) });
+export default function FalloutInventory({ itemsData }) {
+    const [inventory, setInventory] = useState({ inst: new InventoryManager(() => setInventory({ inst: inventory.inst })) });
     const [showModal, setShowModal] = useState(false);
     const [modalExtra, setModalExtra] = useState([false, false]); // [group, extra]
 
@@ -65,8 +65,8 @@ export default function FalloutInventory({itemsData}) {
                             <h2>Items</h2>
                         </CardHeader>
                         <CardBody>
-                            <ItemsAndCostsComponent 
-                                itemsAndCosts={itemsData} 
+                            <ItemsAndCostsComponent
+                                itemsAndCosts={itemsData}
                                 onItemSelect={(item, category, subCategory) => {
                                     const itemName = Object.values(item)[0];
                                     const itemKey = `${category}-${subCategory}-${itemName}`;
@@ -92,10 +92,7 @@ export default function FalloutInventory({itemsData}) {
                                 <tbody className="text-center">
                                     <tr>
                                         <td>
-                                            {/* <Form>
-                                                <Form.Control type="number" step={1} value={inventory.inst.caps} onChange={} />
-                                            </Form> */}
-                                            <CalculatorInput value={inventory.inst.caps} onChange={(value) => inventory.inst.caps = value} />
+                                            <CalculatorInput className="fs-3" value={inventory.inst.caps} onChange={(value) => inventory.inst.caps = value} integer />
                                         </td>
                                         <td>
                                             <span className="fs-3">{inventory.inst.carryLoad}</span>
@@ -109,8 +106,8 @@ export default function FalloutInventory({itemsData}) {
                         <CardHeader>
                             <h2>Inventory</h2>
                         </CardHeader>
-                        <CardBody>
-                        <Table striped>
+                        <CardBody className="overflow-auto">
+                            <Table striped>
                                 <thead>
                                     <tr>
                                         <th>Item</th>
@@ -130,9 +127,11 @@ export default function FalloutInventory({itemsData}) {
                                                         <tr key={itemKey}>
                                                             <td>{toTitleCase(groupItem.name)}</td>
                                                             <td>
-                                                                <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(groupItem, itemKey, -1)}>-</Button>
-                                                                <span className="mx-2">{groupItem.qty}</span>
-                                                                <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(groupItem, itemKey, 1)}>+</Button>
+                                                                <nobr>
+                                                                    <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(groupItem, itemKey, -1)}>-</Button>&nbsp;
+                                                                    <CalculatorInput value={groupItem.qty} onChange={(value) => inventory.inst.updateItemQuantity(itemKey, value)} integer />&nbsp;
+                                                                    <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(groupItem, itemKey, 1)}>+</Button>
+                                                                </nobr>
                                                             </td>
                                                             <td>
                                                                 {
@@ -144,17 +143,17 @@ export default function FalloutInventory({itemsData}) {
                                                             <td>
                                                                 {
                                                                     groupItem.extra ?
-                                                                    (
-                                                                        <Form.Check
-                                                                            type="checkbox"
-                                                                            label={toTitleCase(groupItem.extra.label)}
-                                                                            checked={groupItem.extra.value ?? false}
-                                                                            onChange={(event) => {
-                                                                                inventory.inst.setExtra(item, groupItem, event.target.checked);
-                                                                            }}
-                                                                        />
-                                                                    ) :
-                                                                    null
+                                                                        (
+                                                                            <Form.Check
+                                                                                type="checkbox"
+                                                                                label={toTitleCase(groupItem.extra.label)}
+                                                                                checked={groupItem.extra.value ?? false}
+                                                                                onChange={(event) => {
+                                                                                    inventory.inst.setExtra(item, groupItem, event.target.checked);
+                                                                                }}
+                                                                            />
+                                                                        ) :
+                                                                        null
                                                                 }
                                                             </td>
                                                             <td><Button variant="danger" onClick={() => inventory.inst.removeItem(itemKey)}><i className="bi bi-x" /></Button></td>
@@ -165,9 +164,11 @@ export default function FalloutInventory({itemsData}) {
                                                 <tr key={toTitleCase(item.name)}>
                                                     <td>{item.name}</td>
                                                     <td>
-                                                        <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(item, -1)}>-</Button>
-                                                        <span className="mx-2">{item.qty}</span>
-                                                        <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(item, 1)}>+</Button>
+                                                        <nobr>
+                                                            <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(item, -1)}>-</Button>&nbsp;
+                                                            <CalculatorInput value={item.qty} onChange={(value) => inventory.inst.updateItemQuantity(item.name, value)} integer />&nbsp;
+                                                            <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(item, 1)}>+</Button>
+                                                        </nobr>
                                                     </td>
                                                     <td>{item.carryLoad}</td>
                                                     <td></td>
@@ -206,27 +207,27 @@ export default function FalloutInventory({itemsData}) {
                         </Form.Group>
                         {
                             inventory.inst.items.some((item) => item.group) && modalExtra[0] ?
-                            <Form.Select>
-                                <option value="">Select Group</option>
-                                {
-                                    inventory.inst.items.filter((item) => item.group).map((item, index) => (
-                                        <option key={index} value={item.name}>{toTitleCase(item.name)}</option>
-                                    ))
-                                }
-                            </Form.Select> : modalExtra[0] || modalExtra[1] ?
-                            <Form.Group className="mb-3" controlId="customItemExtraLabel">
-                                <Form.Label>{modalExtra[0] ? "Group Name" : "Extra Label"}</Form.Label>
-                                <Form.Control required type="text" />
-                            </Form.Group> :
-                            null
+                                <Form.Select>
+                                    <option value="">Select Group</option>
+                                    {
+                                        inventory.inst.items.filter((item) => item.group).map((item, index) => (
+                                            <option key={index} value={item.name}>{toTitleCase(item.name)}</option>
+                                        ))
+                                    }
+                                </Form.Select> : modalExtra[0] || modalExtra[1] ?
+                                    <Form.Group className="mb-3" controlId="customItemExtraLabel">
+                                        <Form.Label>{modalExtra[0] ? "Group Name" : "Extra Label"}</Form.Label>
+                                        <Form.Control required type="text" />
+                                    </Form.Group> :
+                                    null
                         }
                         {
                             modalExtra.some((e) => e) ?
-                            <Form.Group className="mb-3" controlId="customItemExtraValue">
-                                <Form.Label>{modalExtra[0] ? "Group Quantity per Load" : "Extra Load"}</Form.Label>
-                                <Form.Control required defaultValue={0} min={0} type="number" step={1} />
-                            </Form.Group> :
-                            null
+                                <Form.Group className="mb-3" controlId="customItemExtraValue">
+                                    <Form.Label>{modalExtra[0] ? "Group Quantity per Load" : "Extra Load"}</Form.Label>
+                                    <Form.Control required defaultValue={0} min={0} type="number" step={1} />
+                                </Form.Group> :
+                                null
                         }
                         <Button variant="primary" type="submit">Add</Button>
                     </Form>

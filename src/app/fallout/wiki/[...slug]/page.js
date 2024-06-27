@@ -23,7 +23,7 @@ export default async function Page({ params }) {
             } else if (file.endsWith('.csv')) {
                 const csvContent = await fs.readFile(path.join(dirPath, file), 'utf8');
                 csvData.push({
-                    name: file,
+                    name: file.replace('.csv', ''),
                     data: Papa.parse(csvContent).data
                 });
             }

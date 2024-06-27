@@ -1,16 +1,16 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Modal, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Modal, Row, Col } from 'react-bootstrap';
 
-const CalculatorInput = ({ value, onChange }) => {
-  const [inputValue, setInputValue] = useState(value);
+const CalculatorInput = ({ value, onChange, integer=false, className="" }) => {
+  const [inputValue, setInputValue] = useState(value.toString());
   const [showCalculator, setShowCalculator] = useState(false);
-  const [calculation, setCalculation] = useState('');
+  const [calculation, setCalculation] = useState(value.toString());
 
   useEffect(() => {
     if (showCalculator) {
-      setCalculation(inputValue);
+      setCalculation(inputValue.toString());
     }
   }, [showCalculator, inputValue]);
 
@@ -26,33 +26,40 @@ const CalculatorInput = ({ value, onChange }) => {
   const handleCalculatorClick = (value) => {
     if (value === '=') {
       try {
-        const result = Math.floor(eval(calculation));
+        let result = eval(calculation);
+        if (integer) result = Math.floor(result);
         setInputValue(result.toString());
         setCalculation('');
         setShowCalculator(false);
         onChange(result);
       } catch (error) {
-        setCalculation('Error');
+        alert('Invalid calculation');
       }
     } else if (value === 'C') {
       setCalculation('');
+    } else if (value === '⇦') {
+      setCalculation(prev => prev.slice(0, -1));
     } else {
       setCalculation(prev => prev === '0' ? value : prev + value);
     }
   };
 
-  const buttons = ['7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', '.', '=', '+', 'C'];
+  const buttons = ['7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', '.', '=', '+', 'C', '(', ')', '⇦'];
 
   return (
-    <Container>
-      <Form.Group>
-        <Form.Control
-          type="text"
-          value={inputValue}
-          onClick={handleInputClick}
-          readOnly
-        />
-      </Form.Group>
+    <>
+      <span
+        onClick={handleInputClick}
+        style={{ 
+          cursor: 'pointer',
+        }}
+        className={className}
+      >
+        <nobr>
+          {inputValue}&nbsp;
+          <i class="bi bi-pencil-square"></i>
+        </nobr>
+      </span>
 
       <Modal show={showCalculator} onHide={handleClose} centered>
         <Modal.Header closeButton className="bg-primary text-white">
@@ -61,7 +68,7 @@ const CalculatorInput = ({ value, onChange }) => {
         <Modal.Body className="bg-light">
           <Form.Control
             type="text"
-            value={calculation}
+            value={calculation.replace(/\*/g, '×').replace(/\//g, '÷')}
             readOnly
             className="mb-3 text-right font-weight-bold"
             style={{ fontSize: '1.5rem' }}
@@ -74,15 +81,16 @@ const CalculatorInput = ({ value, onChange }) => {
                   onClick={() => handleCalculatorClick(btn)}
                   className="w-100"
                   style={{ height: '50px' }}
+                  disabled={integer && btn === '.'}
                 >
-                  {btn}
+                  {btn === '*' ? '×' : btn === '/' ? '÷' : btn}
                 </Button>
               </Col>
             ))}
           </Row>
         </Modal.Body>
       </Modal>
-    </Container>
+    </>
   );
 };
 

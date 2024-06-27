@@ -62,7 +62,7 @@ export function IndexPage({ pages }) {
                   {contentMatch && (
                     <small>
                       {nameMatch && <br />}
-                      Matched in content: <mark>{contentMatch}</mark>
+                      Matched in content: {contentMatch.split(searchTerm)[0]}<mark>{searchTerm}</mark>{contentMatch.split(searchTerm)[1]}
                     </small>
                   )}
                 </div>
