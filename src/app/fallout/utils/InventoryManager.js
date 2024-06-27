@@ -315,6 +315,10 @@ export class InventoryManager {
             // Clear local storage
             localStorage.removeItem('InventoryManager');
 
+            // Clear inventory
+            this.items = [];
+            this.caps = 0;
+
             this.loaded = true;
         }
     }
