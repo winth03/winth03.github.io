@@ -59,7 +59,7 @@ export class InventoryItem {
     }
 }
 
-export class InventoryManager {
+export default class InventoryManager {
     constructor(callback) {
         this.items = [];
         this.loaded = false;

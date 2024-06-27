@@ -47,7 +47,7 @@ export class Turn {
     }
 }
 
-export class TurnManager {
+export default class TurnManager {
     constructor(callback) {
         this.currentTurn = 0;
         this.turnQueue = [new Turn()];
@@ -62,7 +62,7 @@ export class TurnManager {
 
     set APmax(value) {
         this.turn.APmax = parseInt(value);
-        if (this.callback) this.callback();
+        this.triggerCallback();
     }
     get APmax() {
         return this.turn.APmax;
@@ -70,7 +70,7 @@ export class TurnManager {
     
     set fullRecycle(value) {
         this.turn.fullRecycle = value;
-        if (this.callback) this.callback();
+        this.triggerCallback();
     }
     get fullRecycle() {
         return this.turn.fullRecycle;
@@ -79,7 +79,7 @@ export class TurnManager {
     set dying(value) {
         this.turn.dying = value;
         if (value) this.turn.firstTurnDying = value;
-        if (this.callback) this.callback();
+        this.triggerCallback();
     }
     get dying() {
         return this.turn.dying;
@@ -93,7 +93,7 @@ export class TurnManager {
         this.turnQueue.push(newTurn);
         this.currentTurn++;
 
-        if (this.callback && save) this.callback();
+        if (save) this.triggerCallback();
     }
 
     rollbackTurn() {
@@ -102,26 +102,26 @@ export class TurnManager {
         this.turnQueue.pop();
         this.currentTurn--;
 
-        if (this.callback) this.callback();
+        this.triggerCallback();
     }
 
     addActionToQueue(action, save = true) {
         this.turn.addAction(action);
 
-        if (this.callback && save) this.callback();
+        if (save) this.triggerCallback();
     }
 
     removeActionFromQueue(actionIndex) {
         this.turn.removeAction(actionIndex);
 
-        if (this.callback) this.callback();
+        this.triggerCallback();
     }
 
     reset() {
         this.currentTurn = 0;
         this.turnQueue = [new Turn()];
 
-        if (this.callback) this.callback();
+        this.triggerCallback();
     }
 
     // Save to local storage
@@ -152,6 +152,10 @@ export class TurnManager {
         else console.log("No data found in local storage.");
         this.loaded = true;
 
+        this.triggerCallback();
+    }
+
+    triggerCallback() {
         if (this.callback) this.callback();
     }
 }

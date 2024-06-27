@@ -1,5 +1,5 @@
-import { InventoryManager } from "./InventoryManager"
-import { TurnManager } from "./TurnManager"
+import InventoryManager from "./InventoryManager"
+import TurnManager from "./TurnManager"
 
 const LEVEL_TABLE = [
     { // Level 1
