@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import TurnManager from "@/app/fallout/utils/TurnManager";
 import { ACTION_LIST } from "@/app/fallout/utils/actionsList";
+import CalculatorInput from "@/components/CalculatorInput";
 
 export default function FalloutCombat() {
     const [TM, setTM] = useState({ inst: new TurnManager(() => setTM({ inst: TM.inst })) });
@@ -44,11 +45,8 @@ export default function FalloutCombat() {
         setShowModal(true);
     }
 
-    function updateMaxAP(event) {
-        event.preventDefault();
-
-        if (event.target.value == "") TM.inst.APmax = 0;
-        else TM.inst.APmax = event.target.value;
+    function updateMaxAP(value) {
+        TM.inst.APmax = Math.max(value, 0);
     }
     //#endregion
 
@@ -83,14 +81,14 @@ export default function FalloutCombat() {
                                     };
                                     if (action.action === "Attack") onClick = () => {
                                         setShowModal(true);
-                                        setActionInfo(action);
+                                        setActionInfo({...action, action: "Attack with Weapon"});
                                     };
                                     else if (action.action === "Ready") onClick = () => {
                                         setReady(!ready);
                                     };
                                     return (
                                         <tr key={index}>
-                                            <td><Button variant={action.action === "Ready" && ready ? "primary" : "outline-primary"} onClick={onClick}>{action.action}</Button> <i onClick={() => showActionInfo(action)} title={action.description} className="bi bi-info-circle" /></td>
+                                            <td><nobr><Button variant={action.action === "Ready" && ready ? "primary" : "outline-primary"} onClick={onClick}>{action.action}</Button>&nbsp;<i onClick={() => showActionInfo(action)} title={action.description} className="bi bi-info-circle" /></nobr></td>
                                             <td>{action.apCost}</td>
                                         </tr>
                                     );
@@ -113,7 +111,8 @@ export default function FalloutCombat() {
                             <tbody>
                                 <tr>
                                     <td>{TM.inst.turn.APleft}</td>
-                                    <td><FormControl value={TM.inst.turn.APmax} type="number" step="1" onChange={updateMaxAP} /></td>
+                                    {/* <td><FormControl value={TM.inst.turn.APmax} type="number" step="1" onChange={updateMaxAP} /></td> */}
+                                    <td><CalculatorInput value={TM.inst.turn.APmax} onChange={updateMaxAP} integer /></td>
                                     <td><Button variant="warning" onClick={() => TM.inst.rollbackTurn()}>Rollback</Button></td>
                                     <td><Button variant="success" onClick={() => TM.inst.nextTurn()}>Next</Button></td>
                                     <td><Button variant="danger" onClick={() => TM.inst.reset()}>Reset</Button></td>
@@ -155,7 +154,7 @@ export default function FalloutCombat() {
                     <Modal.Title>{actionInfo.action}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {actionInfo.action === "Attack" ? (
+                    {actionInfo.action === "Attack with Weapon" ? (
                         <div>
                             <p>Select a weapon to attack with:</p>
                             <ListGroup>
@@ -163,8 +162,9 @@ export default function FalloutCombat() {
                                     <ListGroup.Item
                                         key={index}
                                         onMouseEnter={(e) => {
+                                            const rect = e.target.getBoundingClientRect();
                                             setToastWeapon(weapon);
-                                            setToastPosition({ top: e.clientY, left: e.clientX });
+                                            setToastPosition({ top: rect.bottom, left: rect.left });
                                             setShowToast(true);
                                         }}
                                         onMouseLeave={() => setShowToast(false)}
@@ -197,6 +197,7 @@ export default function FalloutCombat() {
             </Modal>
             <ToastContainer position="top-start" style={{ zIndex: 9999 }}>
                 <Toast
+                    autohide
                     show={showToast}
                     onClose={() => setShowToast(false)}
                     style={{

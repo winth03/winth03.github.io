@@ -115,6 +115,9 @@ export default class InventoryManager {
             }
         } else if (targetItem) {
             targetItem.qty = amount;
+            if (targetItem.qty <= 0) {
+                this.removeItem(itemKey);
+            }
         }
 
         this.triggerCallback();
@@ -134,6 +137,20 @@ export default class InventoryManager {
         }
 
         this.triggerCallback();
+    }
+
+    findItem(itemKey) {
+        const [item, groupIndex] = itemKey.split("/");
+        const parsedGroupIndex = parseInt(groupIndex, 10);
+
+        if (!isNaN(parsedGroupIndex)) {
+            const targetItem = this.items.find(i => i.name === item);
+            if (targetItem) {
+                return targetItem.groupItems[parsedGroupIndex];
+            }
+        }
+
+        return this.items.find(i => i.name === item);
     }
 
     setExtra(item, groupItem, value) {

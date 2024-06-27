@@ -92,7 +92,9 @@ export default function FalloutInventory({ itemsData }) {
                                 <tbody className="text-center">
                                     <tr>
                                         <td>
-                                            <CalculatorInput className="fs-3" value={inventory.inst.caps} onChange={(value) => inventory.inst.caps = value} integer />
+                                            <nobr>
+                                                <CalculatorInput className="fs-3" value={inventory.inst.caps} onChange={(value) => inventory.inst.caps = value} integer />
+                                            </nobr>
                                         </td>
                                         <td>
                                             <span className="fs-3">{inventory.inst.carryLoad}</span>
@@ -156,23 +158,23 @@ export default function FalloutInventory({ itemsData }) {
                                                                         null
                                                                 }
                                                             </td>
-                                                            <td><Button variant="danger" onClick={() => inventory.inst.removeItem(itemKey)}><i className="bi bi-x" /></Button></td>
+                                                            <td><Button variant="danger" size="sm" onClick={() => inventory.inst.removeItem(itemKey)}><i className="bi bi-x" /></Button></td>
                                                         </tr>
                                                     );
                                                 }));
                                             } else return acc.concat(
-                                                <tr key={toTitleCase(item.name)}>
-                                                    <td>{item.name}</td>
+                                                <tr key={item.name}>
+                                                    <td>{toTitleCase(item.name)}</td>
                                                     <td>
                                                         <nobr>
-                                                            <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(item, -1)}>-</Button>&nbsp;
+                                                            <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(item, item.name, -1)}>-</Button>&nbsp;
                                                             <CalculatorInput value={item.qty} onChange={(value) => inventory.inst.updateItemQuantity(item.name, value)} integer />&nbsp;
-                                                            <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(item, 1)}>+</Button>
+                                                            <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(item, item.name, 1)}>+</Button>
                                                         </nobr>
                                                     </td>
                                                     <td>{item.carryLoad}</td>
                                                     <td></td>
-                                                    <td><Button variant="danger" onClick={() => inventory.inst.removeItem(item.name)}><i className="bi bi-x" /></Button></td>
+                                                    <td><Button variant="danger" size="sm" onClick={() => inventory.inst.removeItem(item.name)}><i className="bi bi-x" /></Button></td>
                                                 </tr>
                                             );
                                         }, [])

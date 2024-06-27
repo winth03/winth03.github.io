@@ -14,6 +14,10 @@ const CalculatorInput = ({ value, onChange, integer=false, className="" }) => {
     }
   }, [showCalculator, inputValue]);
 
+  useEffect(() => {
+    setInputValue(value.toString());
+  }, [value]);
+
   const handleInputClick = () => {
     setShowCalculator(true);
   };
@@ -26,14 +30,14 @@ const CalculatorInput = ({ value, onChange, integer=false, className="" }) => {
   const handleCalculatorClick = (value) => {
     if (value === '=') {
       try {
-        let result = eval(calculation);
+        let result = eval(calculation || inputValue);
         if (integer) result = Math.floor(result);
         setInputValue(result.toString());
         setCalculation('');
         setShowCalculator(false);
         onChange(result);
       } catch (error) {
-        alert('Invalid calculation');
+        alert('Invalid calculation : ' + error.message);
       }
     } else if (value === 'C') {
       setCalculation('');
@@ -44,7 +48,7 @@ const CalculatorInput = ({ value, onChange, integer=false, className="" }) => {
     }
   };
 
-  const buttons = ['7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', '.', '=', '+', 'C', '(', ')', '⇦'];
+  const buttons = ['7', '8', '9', '⇦', '4', '5', '6', '/', '1', '2', '3', '*', '0', '(', ')', '-', 'C', '.', '=', '+'];
 
   return (
     <>
@@ -55,10 +59,8 @@ const CalculatorInput = ({ value, onChange, integer=false, className="" }) => {
         }}
         className={className}
       >
-        <nobr>
-          {inputValue}&nbsp;
-          <i class="bi bi-pencil-square"></i>
-        </nobr>
+        {inputValue}&nbsp;
+        <i className="bi bi-pencil-square"></i>
       </span>
 
       <Modal show={showCalculator} onHide={handleClose} centered>
@@ -68,7 +70,7 @@ const CalculatorInput = ({ value, onChange, integer=false, className="" }) => {
         <Modal.Body className="bg-light">
           <Form.Control
             type="text"
-            value={calculation.replace(/\*/g, '×').replace(/\//g, '÷')}
+            value={calculation.replace(/\*/g, 'x').replace(/\//g, '÷')}
             readOnly
             className="mb-3 text-right font-weight-bold"
             style={{ fontSize: '1.5rem' }}
@@ -83,7 +85,7 @@ const CalculatorInput = ({ value, onChange, integer=false, className="" }) => {
                   style={{ height: '50px' }}
                   disabled={integer && btn === '.'}
                 >
-                  {btn === '*' ? '×' : btn === '/' ? '÷' : btn}
+                  {btn === '*' ? 'x' : btn === '/' ? '÷' : btn}
                 </Button>
               </Col>
             ))}
