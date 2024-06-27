@@ -281,23 +281,36 @@ export class InventoryManager {
     }
 
     load() {
-        const loadedData = JSON.parse(localStorage.getItem('InventoryManager'));
-        const items = loadedData?.items;
-        this.caps = loadedData?._caps;
-        if (items) {
-            items.forEach(item => {
-                if (item.group) {
-                    item.groupItems.forEach(groupItem => {
-                        this.addItem(groupItem.name, groupItem.parserKey, groupItem.data, groupItem._qty, false);
-                        this.items[this.items.length - 1].groupItems.find(i => i.name === groupItem.name).extra = groupItem.extra;
-                    });
-                } else {
-                    this.addItem(item.name, item.parserKey, item.data, item._qty, false);
-                }
-            });
+        try {
+            const loadedData = JSON.parse(localStorage.getItem('InventoryManager'));
+            const items = loadedData?.items;
+            this.caps = loadedData?._caps;
+            if (items) {
+                items.forEach(item => {
+                    if (item.group) {
+                        item.groupItems.forEach(groupItem => {
+                            this.addItem(groupItem.name, groupItem.parserKey, groupItem.data, groupItem._qty, false);
+                            this.items[this.items.length - 1].groupItems.find(i => i.name === groupItem.name).extra = groupItem.extra;
+                        });
+                    } else {
+                        this.addItem(item.name, item.parserKey, item.data, item._qty, false);
+                    }
+                });
+            }
+            this.loaded = true;
+            console.log("Loaded inventory", items);
+            if (this.callback) this.callback();
+        } catch (error) {
+            console.error("Error loading inventory", error);
+            // Download the inventory to file
+            const inventory = localStorage.getItem('InventoryManager');
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(inventory));
+            element.setAttribute('download', 'inventory.json');
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);            
         }
-        this.loaded = true;
-        console.log("Loaded inventory", items);
-        if (this.callback) this.callback();
     }
 }
