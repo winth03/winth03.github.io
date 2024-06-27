@@ -310,7 +310,12 @@ export class InventoryManager {
             element.style.display = 'none';
             document.body.appendChild(element);
             element.click();
-            document.body.removeChild(element);            
+            document.body.removeChild(element);
+            
+            // Clear local storage
+            localStorage.removeItem('InventoryManager');
+
+            this.loaded = true;
         }
     }
 }
