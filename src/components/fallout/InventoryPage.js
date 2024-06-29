@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Accordion, Button, Card, CardBody, CardHeader, Col, Container, Form, ListGroup, ListGroupItem, Modal, Row, Spinner, Table } from "react-bootstrap";
 import { toTitleCase } from "@/app/fallout/utils/utils";
 import InventoryManager from "@/app/fallout/utils/InventoryManager";
-import ItemsAndCostsComponent from "@/components/ItemsAndCosts";
+import ItemsAndCostsComponent from "@/components/fallout/ItemsAndCosts";
 import CalculatorInput from "@/components/CalculatorInput";
 
 export default function FalloutInventory({ itemsData }) {

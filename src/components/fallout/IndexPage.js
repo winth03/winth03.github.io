@@ -14,15 +14,33 @@ function findMatchSnippet(content, searchTerm) {
       const end = Math.min(content.length, index + searchTerm.length + 30);
       return '...' + content.slice(start, end) + '...';
     }
-  } else if (typeof content === 'object') {
-    const stringContent = JSON.stringify(content);
-    const lowerStringContent = stringContent.toLowerCase();
-    const index = lowerStringContent.indexOf(searchTerm.toLowerCase());
-    if (index !== -1) {
-      const start = Math.max(0, index - 30);
-      const end = Math.min(stringContent.length, index + searchTerm.length + 30);
-      return '...' + stringContent.slice(start, end) + '...';
+  } else if (Array.isArray(content)) {
+    for (const item of content) {
+      const match = findMatchSnippet(item, searchTerm);
+      if (match) {
+        return match;
+      }
     }
+  } else if (typeof content === 'object') {
+    for (const key in content) {
+      // Check if there is a match in the key
+      if (key.toLowerCase().includes(searchTerm.toLowerCase())) {
+        return key;
+      }
+      // Check if there is a match in the content
+      const match = findMatchSnippet(content[key], searchTerm);
+      if (match) {
+        return match;
+      }
+    }
+    // const stringContent = JSON.stringify(content);
+    // const lowerStringContent = stringContent.toLowerCase();
+    // const index = lowerStringContent.indexOf(searchTerm.toLowerCase());
+    // if (index !== -1) {
+    //   const start = Math.max(0, index - 30);
+    //   const end = Math.min(stringContent.length, index + searchTerm.length + 30);
+    //   return '...' + stringContent.slice(start, end) + '...';
+    // }
   }
   return null;
 }
@@ -32,8 +50,9 @@ export function IndexPage({ pages }) {
 
   const filteredPages = pages.filter(page => 
     page.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (typeof page.content === 'object' && JSON.stringify(page.content).toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (typeof page.content === 'string' && page.content.toLowerCase().includes(searchTerm.toLowerCase()))
+    (Array.isArray(page.content) && page.content.some(item => JSON.stringify(item).toLowerCase().includes(searchTerm.toLowerCase()))) ||
+    (typeof page.content === 'object' && JSON.stringify(page.content).toLowerCase().includes(searchTerm.toLowerCase()))
+    // (typeof page.content === 'string' && page.content.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -50,6 +69,7 @@ export function IndexPage({ pages }) {
         {filteredPages.map((page, index) => {
           const nameMatch = page.name.toLowerCase().includes(searchTerm.toLowerCase());
           const contentMatch = findMatchSnippet(page.content, searchTerm);
+          const re = new RegExp(`${searchTerm}`, 'i');
           
           return (
             <ListGroup.Item key={index}>
@@ -62,7 +82,7 @@ export function IndexPage({ pages }) {
                   {contentMatch && (
                     <small>
                       {nameMatch && <br />}
-                      Matched in content: {contentMatch.split(searchTerm)[0]}<mark>{searchTerm}</mark>{contentMatch.split(searchTerm)[1]}
+                      Matched in content: {contentMatch.split(re)[0]}<mark>{contentMatch.match(re)}</mark>{contentMatch.split(re)[1]}
                     </small>
                   )}
                 </div>

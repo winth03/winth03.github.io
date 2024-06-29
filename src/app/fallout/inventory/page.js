@@ -1,5 +1,5 @@
 import getItemsAndCosts from '@/app/fallout/utils/inventory';
-import FaloutInventory from '@/components/InventoryPage';
+import FaloutInventory from '@/components/fallout/InventoryPage';
 
 export default async function InventoryPage() {
     const itemsAndCosts = await getItemsAndCosts();

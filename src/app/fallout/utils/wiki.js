@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
+import Papa from 'papaparse';
 
 export async function getAllPaths(dir = 'public/fallout/wiki', paths = []) {
     const entries = await fs.readdir(path.join(process.cwd(), dir), { withFileTypes: true });
@@ -18,16 +19,16 @@ export async function getAllPaths(dir = 'public/fallout/wiki', paths = []) {
             }
         } else if (entry.name.endsWith('.csv')) {
             const basename = path.basename(dir);
-            const content = await fs.readFile(path.join(process.cwd(), dir, entry.name), 'utf8');
+            const content = Papa.parse(await fs.readFile(path.join(process.cwd(), dir, entry.name), 'utf8')).data;
             const item = paths.find(p => p.name === basename)
             if (!item) {
                 paths.push({
                     name: basename,
                     path: dir.replace(`public${path.sep}fallout${path.sep}wiki${path.sep}`, ''),
-                    content: content
+                    content: [content]
                 });
             } else {
-                item.content += content;
+                item.content.push(content);
             }
         }
     }

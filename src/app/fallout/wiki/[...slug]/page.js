@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import fs from 'fs/promises';
 import path from 'path';
 import Papa from 'papaparse';
-import WikiPage from '@/components/WikiPage';
+import WikiPage from '@/components/fallout/WikiPage';
 import Link from 'next/link';
 import { getWikiPage } from '@/app/fallout/utils/wiki'
 
