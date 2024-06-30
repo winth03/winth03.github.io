@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navbar>
           <Container>
-            <NavbarBrand href="/">WinTH03's TTRPG Tools</NavbarBrand>
+            <NavbarBrand href="/">WinTH03&apos;s TTRPG Tools</NavbarBrand>
             <NavbarToggle aria-controls="main-navbar" />
             <NavbarCollapse id="main-navbar">
               <Nav>

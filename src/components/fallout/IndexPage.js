@@ -59,7 +59,7 @@ export function IndexPage({ pages }) {
     });
 
     setFilteredPages(filtered);
-  }, [searchTerm, searchableContent]);
+  }, [searchTerm, searchableContent, pages]);
 
   function getSnippetAndId(content, searchTerm) {
     // First, try to find a match in an element with an ID
