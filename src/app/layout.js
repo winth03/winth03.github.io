@@ -10,6 +10,26 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "WinTH03's TTRPG Tools",
   description: "Tools for playing tabletop role-playing games.",
+  generator: "Next.js",
+  manifest: "/manifest.webmanifest",
+  keywords: ["ttrpg", "winth03", "tools", "tabletop", "role-playing", "games"],  
+  authors: [
+    { name: "Nutpapop Yasawut" },
+    {
+      name: "Nutpapop Yasawut",
+      url: "https://github.com/winth03/",
+    },
+  ],
+  icons: [
+    { rel: "apple-touch-icon", url: "icons/icon-256x256.png" },
+    { rel: "icon", url: "icons/icon-256x256.png" },
+  ],
+};
+
+export const viewport = {
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#fff" }],
+  viewport:
+    "minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover",
 };
 
 export default function RootLayout({
