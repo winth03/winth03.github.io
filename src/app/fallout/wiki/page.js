@@ -1,4 +1,4 @@
-import { IndexPage } from '@/components/Fallout/IndexPage';
+import { IndexPage } from '@/components/fallout/IndexPage';
 import { getAllPaths } from '@/app/fallout/utils/wiki';
 
 export default async function WikiIndexPage() {

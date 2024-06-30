@@ -11,9 +11,10 @@ export async function getAllPaths(dir = 'public/fallout/wiki', paths = []) {
         } else if (entry.name.endsWith('.json')) {
             if (!paths.some(p => `public${path.sep}fallout${path.sep}wiki${path.sep}` + p.path === dir)) {
                 const content = await fs.readFile(path.join(process.cwd(), dir, entry.name), 'utf8');
+                const re = new RegExp(`\\${path.sep}`, 'g');
                 paths.push({
                     name: path.basename(dir),
-                    path: dir.replace(`public${path.sep}fallout${path.sep}wiki${path.sep}`, ''),
+                    path: dir.replace(re, '/').replace("public/fallout/wiki/", ''),
                     content: JSON.parse(content)
                 });
             }
@@ -21,10 +22,11 @@ export async function getAllPaths(dir = 'public/fallout/wiki', paths = []) {
             const basename = path.basename(dir);
             const content = Papa.parse(await fs.readFile(path.join(process.cwd(), dir, entry.name), 'utf8')).data;
             const item = paths.find(p => p.name === basename)
-            if (!item) {
+            if (!item) {                
+                const re = new RegExp(`\\${path.sep}`, 'g');
                 paths.push({
                     name: basename,
-                    path: dir.replace(`public${path.sep}fallout${path.sep}wiki${path.sep}`, ''),
+                    path: dir.replace(re, '/').replace("public/fallout/wiki/", ''),
                     content: [content]
                 });
             } else {
@@ -38,6 +40,6 @@ export async function getAllPaths(dir = 'public/fallout/wiki', paths = []) {
 
 export async function getWikiPage() {
     let paths = await getAllPaths();
-    paths = paths.map(p => ({ slug: p.path.split(path.sep) }));
+    paths = paths.map(p => ({ slug: p.path.split('/') }));
     return paths;
 }

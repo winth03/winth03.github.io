@@ -1,61 +1,109 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Container, Form, ListGroup } from 'react-bootstrap';
+import { Container, Form, ListGroup, Spinner } from 'react-bootstrap';
 import { toTitleCase } from '@/app/fallout/utils/utils';
 
-function findMatchSnippet(content, searchTerm) {
-  if (typeof content === 'string') {
-    const lowerContent = content.toLowerCase();
-    const index = lowerContent.indexOf(searchTerm.toLowerCase());
-    if (index !== -1) {
-      const start = Math.max(0, index - 30);
-      const end = Math.min(content.length, index + searchTerm.length + 30);
-      return '...' + content.slice(start, end) + '...';
-    }
-  } else if (Array.isArray(content)) {
-    for (const item of content) {
-      const match = findMatchSnippet(item, searchTerm);
-      if (match) {
-        return match;
-      }
-    }
-  } else if (typeof content === 'object') {
-    for (const key in content) {
-      // Check if there is a match in the key
-      if (key.toLowerCase().includes(searchTerm.toLowerCase())) {
-        return key;
-      }
-      // Check if there is a match in the content
-      const match = findMatchSnippet(content[key], searchTerm);
-      if (match) {
-        return match;
-      }
-    }
-    // const stringContent = JSON.stringify(content);
-    // const lowerStringContent = stringContent.toLowerCase();
-    // const index = lowerStringContent.indexOf(searchTerm.toLowerCase());
-    // if (index !== -1) {
-    //   const start = Math.max(0, index - 30);
-    //   const end = Math.min(stringContent.length, index + searchTerm.length + 30);
-    //   return '...' + stringContent.slice(start, end) + '...';
-    // }
-  }
-  return null;
-}
-
-export function IndexPage({ pages }) {
+export function IndexPage({ pages }) {  
   const [searchTerm, setSearchTerm] = useState('');
+  const [filteredPages, setFilteredPages] = useState([]);
+  const [htmls, setHtmls] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  const filteredPages = pages.filter(page => 
-    page.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (Array.isArray(page.content) && page.content.some(item => JSON.stringify(item).toLowerCase().includes(searchTerm.toLowerCase()))) ||
-    (typeof page.content === 'object' && JSON.stringify(page.content).toLowerCase().includes(searchTerm.toLowerCase()))
-    // (typeof page.content === 'string' && page.content.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  useEffect(() => {
+    async function fetchHtmls() {
+      const htmls = await pages.reduce(async (obj, page) => {
+        obj = await obj;
+        const res = await fetch(`/fallout/wiki/${page.path}`).then(res => res.text());
 
-  return (
+        // Get only div with id="wiki-content"
+        const div = new DOMParser().parseFromString(res, 'text/html').getElementById('wiki-content');
+        if (!div) return obj;
+
+        return {
+          ...obj,
+          [page.name]: div.innerHTML
+        }
+      }, Promise.resolve({}));
+      return htmls;
+    }
+
+    fetchHtmls().then((htmls) => {
+      setHtmls(htmls);
+      setLoading(false);
+    });
+  }, [pages]);
+
+  useEffect(() => {
+    if (!searchTerm) return setFilteredPages(pages);
+    const filteredPages = filterAndFindMatchSnippet(searchTerm);
+    setFilteredPages(filteredPages);
+  }, [searchTerm, htmls]);
+
+  function filterAndFindMatchSnippet(searchTerm) {
+    const re = new RegExp(searchTerm, 'i');
+
+    // Search for searchTerm in htmls
+    const filteredHtmls = Object.entries(htmls).filter(([name, html]) => re.test(html));
+
+    // Find the snippet of the match
+    const snippets = filteredHtmls.reduce((obj, [name, html]) => {
+      const nameMatch = name.match(re)?.[0];
+
+      // Find the match in the content
+      let contentMatch = html.match(new RegExp(`<[^>]*>[^<]*${searchTerm}[^<]*</[^>]*>`, 'i'))?.[0];
+      if (!contentMatch) return {
+        ...obj,
+        [name]: {
+          nameMatch
+        }      
+      };
+
+      // Find the id of the matched element using DOMParser
+      const matchedId = contentMatch.match(/id="([^"]*)"/)?.[1];
+      contentMatch = contentMatch.replace(/<[^>]*>/g, '');
+      const searchTermMatch = contentMatch.match(new RegExp(searchTerm, 'i'));
+      
+      // Create a snippet of the match
+      // If the content is too long, only show the 100 characters around the match
+      let index = contentMatch.indexOf(searchTermMatch);
+      if (contentMatch.length > 100) {
+        const start = Math.max(0, index - 50);
+        const end = Math.min(contentMatch.length, index + 50);
+        contentMatch = contentMatch.slice(start, end);
+      }
+      index = contentMatch.indexOf(searchTermMatch);
+      const snippet = ['...', contentMatch.slice(0, index), <mark key={searchTermMatch}>{searchTermMatch}</mark>, contentMatch.slice(index + searchTerm.length), '...'];
+      return {
+        ...obj,
+        [name]: {
+          nameMatch,
+          contentMatch,
+          matchedId,
+          snippet
+        }
+      }
+    }, {});
+
+    return pages
+      .filter(page => Object.keys(snippets).includes(page.name))
+      .map(page => {
+      return {
+        ...page,
+        ...snippets[page.name]
+      }
+    });
+  }
+
+  if (loading) {
+    return (
+      <Container fluid className="d-flex justify-content-center">
+        <Spinner />
+      </Container>
+    );
+  }
+  else return (
     <Container className="mt-4">
       <h1>Fallout TTRPG Wiki Index</h1>
       <Form.Control
@@ -67,13 +115,10 @@ export function IndexPage({ pages }) {
       />
       <ListGroup>
         {filteredPages.map((page, index) => {
-          const nameMatch = page.name.toLowerCase().includes(searchTerm.toLowerCase());
-          const contentMatch = findMatchSnippet(page.content, searchTerm);
-          const re = new RegExp(`${searchTerm}`, 'i');
-          
+          const { nameMatch, contentMatch, matchedId, snippet } = page;
           return (
             <ListGroup.Item key={index}>
-              <Link href={`/fallout/wiki/${page.path}`}>
+              <Link href={`/fallout/wiki/${page.path}${matchedId ? '#' + matchedId : ''}`}>
                 {toTitleCase(page.name)}
               </Link>
               {searchTerm && (
@@ -82,7 +127,13 @@ export function IndexPage({ pages }) {
                   {contentMatch && (
                     <small>
                       {nameMatch && <br />}
-                      Matched in content: {contentMatch.split(re)[0]}<mark>{contentMatch.match(re)}</mark>{contentMatch.split(re)[1]}
+                      Matched in content: <span
+                        style={{
+                          display: 'inline-block',
+                          maxWidth: '100%',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >{snippet}</span>
                     </small>
                   )}
                 </div>

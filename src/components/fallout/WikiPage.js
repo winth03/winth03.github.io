@@ -7,25 +7,26 @@ import React from 'react';
 export default function WikiPage({ title, jsonData, csvData }) {
   const [showToast, setShowToast] = React.useState(false);
 
-  function renderContent(content, step=0) {
+  function renderContent(content, step=0, contentId=null) {
     const headerSteps = ['h3', 'h5', 'h6'];
     if (!content) return null;
 
     return Object.entries(content).map(([key, value]) => {
+      const newKey = (contentId ? contentId + '-' : '') + key.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
       if (typeof value === 'string') {
-        return <p key={key} style={{textIndent: '2rem'}}>{value}</p>;
+        return <p id={newKey} key={newKey} style={{textIndent: '2rem'}}>{value}</p>;
       } else if (typeof value === 'object') {
         return (
-          <div key={key} className='ps-4'>
-            {key == 'subsections' ? null : React.createElement(headerSteps[step], {
-              id: key.replace(/\.$/, '').toLowerCase(),
+          <div key={newKey} className='ps-4'>
+            {key === 'subsections' ? null : React.createElement(headerSteps[step], {
+              id: newKey,
               // Set user's clipboard to the element's id when clicked
               onClick: () => {
                 navigator.clipboard.writeText(window.location.href + '#' + key.replace(/\.$/, '').toLowerCase());
                 setShowToast(true);
               }
             }, toTitleCase(key.replace(/\.$/, '')))}
-            {renderContent(value, Math.min(key == 'subsections' ? step : (step + 1), headerSteps.length-1))}
+            {renderContent(value, Math.min(key === 'subsections' ? step : (step + 1), headerSteps.length-1), newKey)}
           </div>
         );
       }
@@ -49,7 +50,7 @@ export default function WikiPage({ title, jsonData, csvData }) {
           <thead>
             <tr>
               {t.data[0].map((header, index) => (
-                <th key={`${t.name}-header-${index}`}>{toTitleCase(header)}</th>
+                <th id={header} key={`${t.name}-header-${index}`}>{toTitleCase(header)}</th>
               ))}
             </tr>
           </thead>
@@ -57,7 +58,7 @@ export default function WikiPage({ title, jsonData, csvData }) {
             {t.data.slice(1).map((row, rowIndex) => (
               <tr key={`${t.name}-row-${rowIndex}`}>
                 {row.map((cell, cellIndex) => (
-                  <td key={`${t.name}-cell-${rowIndex}-${cellIndex}`}>{cell}</td>
+                  <td id={cell.toLowerCase().replace(/\s/g, '_')} key={`${t.name}-cell-${rowIndex}-${cellIndex}`}>{cell}</td>
                 ))}
               </tr>
             ))}
@@ -69,7 +70,7 @@ export default function WikiPage({ title, jsonData, csvData }) {
   }
 
   return (
-    <Container className="mt-4">
+    <Container id='wiki-content' className="mt-4">
       <h1>{toTitleCase(title)}</h1>
       {jsonData && renderContent(jsonData)}
       {csvData && renderTable(csvData)}

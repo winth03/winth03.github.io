@@ -213,6 +213,7 @@ export default class InventoryManager {
     }
 
     downloadInventory() {
+        if (!confirm("An error occurred while loading the inventory. Would you like to download the current inventory and clear the data?")) return;
         const inventory = localStorage.getItem('InventoryManager');
         const blob = new Blob([inventory], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
