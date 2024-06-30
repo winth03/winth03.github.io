@@ -154,7 +154,8 @@ export default class InventoryManager {
     }
 
     setExtra(item, groupItem, value) {
-        const { label, name, data } = groupItem;
+        const { extra: {label}, name, data } = groupItem;
+        console.log("Setting extra", name, label, value);
         const newItemName = value ? `${name} (${toTitleCase(label)})` : name.split(" ").slice(0, -1).join(" ");
 
         item.changeGroupItemQty(name, data, -1, this);

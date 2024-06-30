@@ -10,6 +10,8 @@ export default function FalloutInventory({ itemsData }) {
     const [inventory, setInventory] = useState({ inst: new InventoryManager(() => setInventory({ inst: inventory.inst })) });
     const [showModal, setShowModal] = useState(false);
     const [modalExtra, setModalExtra] = useState([false, false]); // [group, extra]
+    const [customItems, setCustomItems] = useState(undefined);
+    const [disableCustomLoad, setDisableCustomLoad] = useState(false);
 
     useEffect(() => {
         if (!inventory.inst.loaded) {
@@ -28,7 +30,7 @@ export default function FalloutInventory({ itemsData }) {
         const qty = parseInt(event.target.customItemQty.value);
         const load = parseInt(event.target.customItemLoad.value);
         const group = modalExtra[0];
-        const groupName = group ? event.target.customItemExtraLabel.value : "custom";
+        const groupName = group ? event.target.customItemExtraLabel.value.toLowerCase() : "CUSTOM";
         const data = {
             name,
             load,
@@ -36,21 +38,34 @@ export default function FalloutInventory({ itemsData }) {
             groupName,
             groupQPL: group ? parseInt(event.target.customItemExtraValue.value) : undefined,
             extra: modalExtra[1] ? {
-                label: event.target.customItemExtraLabel.value,
+                label: event.target.customItemExtraLabel.value.toLowerCase(),
                 values: [parseInt(event.target.customItemExtraValue.value), load],
                 value: false
             } : undefined,
         };
 
         inventory.inst.addItem(name, "custom", data, qty);
+        setCustomItems([...customItems, data]);
     }
+
+    function removeCustomItem(item) {
+        setCustomItems(customItems.filter((i) => i.name !== item.name));
+    }
+
+    useEffect(() => {
+        if (!customItems) {
+            setCustomItems(JSON.parse(localStorage.getItem("customItems")) ?? []);
+        } else {
+            localStorage.setItem("customItems", JSON.stringify(customItems));
+        }
+    }, [customItems]);
 
     function handleQuantityChange(item, itemKey, amount) {
         const newQty = item.qty + amount;
         inventory.inst.updateItemQuantity(itemKey, newQty);
     }
 
-    if (!inventory.inst.loaded || !itemsData) return (
+    if (!inventory.inst.loaded || !itemsData || !customItems) return (
         <Container fluid className="d-flex justify-content-center">
             <Spinner />
         </Container>
@@ -67,15 +82,15 @@ export default function FalloutInventory({ itemsData }) {
                         <CardBody>
                             <ItemsAndCostsComponent
                                 itemsAndCosts={itemsData}
-                                onItemSelect={(item, category, subCategory) => {
+                                customItems={customItems}
+                                onItemSelect={(item, category) => {
                                     const itemName = Object.values(item)[0];
-                                    const itemKey = `${category}-${subCategory}-${itemName}`;
+                                    const itemKey = `${category}-${itemName}`;
                                     inventory.inst.addItem(itemName, itemKey, item);
                                 }}
+                                onCustomItemSelect={() => setShowModal(true)}
+                                onCustomItemDelete={removeCustomItem}
                             />
-                            <ListGroup>
-                                <ListGroupItem action onClick={() => setShowModal(true)}>Custom Item</ListGroupItem>
-                            </ListGroup>
                         </CardBody>
                     </Card>
                 </Col>
@@ -185,7 +200,11 @@ export default function FalloutInventory({ itemsData }) {
                     </Card>
                 </Col>
             </Row>
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
+            <Modal show={showModal} onHide={() => {
+                setShowModal(false);
+                setModalExtra([false, false]);
+                setDisableCustomLoad(false);
+            }}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add Custom Item</Modal.Title>
                 </Modal.Header>
@@ -201,7 +220,7 @@ export default function FalloutInventory({ itemsData }) {
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="customItemLoad">
                             <Form.Label>Load</Form.Label>
-                            <Form.Control required defaultValue={0} min={0} type="number" step={1} />
+                            <Form.Control disabled={modalExtra[0] && disableCustomLoad} required defaultValue={0} min={0} type="number" step={1} />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="customItemExtra">
                             <Form.Check inline label="Group" checked={modalExtra[0]} onChange={(event) => setModalExtra([event.target.checked, false])} />
@@ -209,16 +228,23 @@ export default function FalloutInventory({ itemsData }) {
                         </Form.Group>
                         {
                             inventory.inst.items.some((item) => item.group) && modalExtra[0] ?
-                                <Form.Select>
-                                    <option value="">Select Group</option>
-                                    {
-                                        inventory.inst.items.filter((item) => item.group).map((item, index) => (
-                                            <option key={index} value={item.name}>{toTitleCase(item.name)}</option>
-                                        ))
-                                    }
-                                </Form.Select> : modalExtra[0] || modalExtra[1] ?
+                                <Form.Group className="mb-3" controlId="customItemExtraLabel">
+                                    <Form.Label>Group</Form.Label>
+                                    <Form.Control list="custom_groups" autoComplete="off" onInput={(event) => {
+                                        const group = inventory.inst.items.find((item) => item.name === event.target.value);
+                                        setDisableCustomLoad(group);
+                                    }} />
+                                    <datalist id="custom_groups">
+                                        {
+                                            inventory.inst.items.filter((item) => item.group).map((item, index) => {
+                                                if (item.name === "CUSTOM") return null;
+                                                return (<option key={index} value={item.name}>{item.name}</option>);
+                                            })
+                                        }
+                                    </datalist>
+                                </Form.Group> : modalExtra[0] || modalExtra[1] ?
                                     <Form.Group className="mb-3" controlId="customItemExtraLabel">
-                                        <Form.Label>{modalExtra[0] ? "Group Name" : "Extra Label"}</Form.Label>
+                                        <Form.Label>Extra Label</Form.Label>
                                         <Form.Control required type="text" />
                                     </Form.Group> :
                                     null
@@ -227,7 +253,7 @@ export default function FalloutInventory({ itemsData }) {
                             modalExtra.some((e) => e) ?
                                 <Form.Group className="mb-3" controlId="customItemExtraValue">
                                     <Form.Label>{modalExtra[0] ? "Group Quantity per Load" : "Extra Load"}</Form.Label>
-                                    <Form.Control required defaultValue={0} min={0} type="number" step={1} />
+                                    <Form.Control disabled={modalExtra[0] && disableCustomLoad} required defaultValue={0} min={0} type="number" step={1} />
                                 </Form.Group> :
                                 null
                         }
