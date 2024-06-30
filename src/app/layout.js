@@ -8,7 +8,7 @@ import { Navbar, NavbarBrand, NavbarToggle, NavbarCollapse, NavLink, Nav, NavDro
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "TTRPG Tools",
+  title: "WinTH03's TTRPG Tools",
   description: "Tools for playing tabletop role-playing games.",
 };
 
@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navbar>
           <Container>
-            <NavbarBrand href="/">TTRPG Tools</NavbarBrand>
+            <NavbarBrand href="/">WinTH03's TTRPG Tools</NavbarBrand>
             <NavbarToggle aria-controls="main-navbar" />
             <NavbarCollapse id="main-navbar">
               <Nav>

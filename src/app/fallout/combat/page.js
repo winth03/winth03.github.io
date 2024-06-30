@@ -86,6 +86,10 @@ export default function FalloutCombat() {
                                     else if (action.action === "Ready") onClick = () => {
                                         setReady(!ready);
                                     };
+                                    else if (action.action === "Custom Action") onClick = () => {
+                                        setShowModal(true);
+                                        setActionInfo({ action: "Custom" });
+                                    }
                                     return (
                                         <tr key={index}>
                                             <td><nobr><Button variant={action.action === "Ready" && ready ? "primary" : "outline-primary"} onClick={onClick}>{action.action}</Button>&nbsp;<i onClick={() => showActionInfo(action)} title={action.description} className="bi bi-info-circle" /></nobr></td>
@@ -136,7 +140,7 @@ export default function FalloutCombat() {
                                                 {
                                                     turn.actions.map((action, actionIndex) => {
                                                         return (
-                                                            <ListGroup.Item disabled={turnIndex !== TM.inst.currentTurn} key={actionIndex} action onClick={() => TM.inst.removeActionFromQueue(actionIndex)}>{action.action}</ListGroup.Item>
+                                                            <ListGroup.Item disabled={turnIndex !== TM.inst.currentTurn} key={actionIndex} action onClick={() => TM.inst.removeActionFromQueue(actionIndex)}>{action.action} <span style={{color: '#666'}}>({action.apCost} AP)</span></ListGroup.Item>
                                                         );
                                                     })
                                                 }
@@ -149,7 +153,10 @@ export default function FalloutCombat() {
                     </Accordion>
                 </Container>
             </Container>
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
+            <Modal show={showModal} onHide={() => {
+                setShowModal(false);
+                setShowToast(false);
+            }}>
                 <Modal.Header closeButton>
                     <Modal.Title>{actionInfo.action}</Modal.Title>
                 </Modal.Header>
@@ -162,35 +169,62 @@ export default function FalloutCombat() {
                                     <ListGroup.Item
                                         key={index}
                                         onMouseEnter={(e) => {
-                                            const rect = e.target.getBoundingClientRect();
+                                            const rect = e.currentTarget.getBoundingClientRect();
                                             setToastWeapon(weapon);
                                             setToastPosition({ top: rect.bottom, left: rect.left });
                                             setShowToast(true);
                                         }}
-                                        onMouseLeave={() => setShowToast(false)}
                                     >
                                         <div className="d-flex justify-content-between align-items-center">
                                             <span>{weapon.name}</span>
                                             <Button
                                                 variant="primary"
                                                 onClick={() => {
-                                                    const attackAction = {
+                                                    let attackAction = {
                                                         action: `Attack with ${weapon.name}`,
                                                         apCost: weapon.data.AP.split(' ')[0],
                                                         description: `${weapon.data.Damage} damage, ${weapon.data["Special Properties"]}`
                                                     };
+                                                    if (ready) {
+                                                        attackAction.apCost = (parseInt(attackAction.apCost) + 2).toString();
+                                                        attackAction.action = "Ready: " + attackAction.action;
+                                                        setReady(false);
+                                                    }
                                                     TM.inst.addActionToQueue(attackAction);
                                                     setShowModal(false);
+                                                    setShowToast(false);
                                                 }}
                                             >
                                                 Use ({weapon.data.AP})
                                             </Button>
                                         </div>
                                     </ListGroup.Item>
-                                ))}
+                                ))}                                
                             </ListGroup>
                         </div>
-                    ) : (
+                    ) : actionInfo.action === "Custom" ? (
+                        <Form onSubmit={(event) => {
+                            event.preventDefault();
+                            const form = event.target;
+                            const action = form.action.value;
+                            const apCost = form.apCost.value;
+                            TM.inst.addActionToQueue({ action, apCost });
+                            setShowModal(false);
+                        }}>
+                            <Form.Group className="mb-3" controlId="action">
+                                <Form.Label>Action</Form.Label>
+                                <Form.Control type="text" placeholder="Enter action" required />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="apCost">
+                                <Form.Label>AP Cost</Form.Label>
+                                <Form.Control type="number" min={0} placeholder="AP Cost" required />
+                            </Form.Group>
+                            <Button variant="primary" type="submit">
+                                Submit
+                            </Button>
+                        </Form>
+                    ) :
+                    (
                         <p>{actionInfo.description}</p>
                     )}
                 </Modal.Body>

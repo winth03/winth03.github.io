@@ -94,4 +94,9 @@ export const ACTION_LIST = [
         apCost: "4",
         description: "When you take this action, you take the chem out of your inventory and use it. You don’t need to interact with the object or equip the chem in order to use it."
     },
+    {
+        action: "Custom Action",
+        apCost: "Dependent on the action",
+        description: "If you want to do something that isn’t listed here, you can ask the GM if it is possible and how many AP it will cost. The GM will determine the action cost based on the difficulty of the action."
+    }
 ];
