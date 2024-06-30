@@ -144,7 +144,8 @@ export default function FalloutInventory({ itemsData }) {
                                                         <tr key={itemKey}>
                                                             <td><span onClick={() => {
                                                                 // Open item info modal by finding element with item name
-                                                                const itemElement = document.querySelector(`[id="${groupItem.name}"]`);
+                                                                const itemId = groupItem.name.replace(/\s\(.*\)/i, "")
+                                                                const itemElement = document.querySelector(`[id="${itemId}"]`);
 
                                                                 if (itemElement) {
                                                                     itemElement.click();
