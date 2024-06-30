@@ -101,7 +101,7 @@ export default function FalloutInventory({ itemsData }) {
                                 <thead>
                                     <tr>
                                         <th>Caps</th>
-                                        <th>Carry Load</th>
+                                        <th>Item Load</th>
                                     </tr>
                                 </thead>
                                 <tbody className="text-center">
