@@ -6,6 +6,7 @@ import { PARSER } from "./inventoryParser";
 export class InventoryItem {
     constructor(item, qty, parserKey, data, root = true) {
         const extraData = PARSER[parserKey].extra(data);
+        console.log("Creating item", item, qty, parserKey, data, root, extraData);
         this.group = (extraData || PARSER[parserKey].group(data)) && root;
         this.name = this.group && root ? (data.groupName || parserKey) : item;
         this.parserKey = parserKey;
@@ -81,7 +82,7 @@ export default class InventoryManager {
     }
 
     addItem(item, key, data, qty = 1, save = true) {
-        const keyList = key.split("-").map(e => e.split(".")[0].replace(" ", "_").toLowerCase());
+        const keyList = key.split("-").map(e => e.replace(" ", "_").toLowerCase());
         const parserKey = keyList.find(e => PARSER.hasOwnProperty(e));
         const existingItem = this.items.find(i => i.name === item || i.name === parserKey || i.name === data.groupName);
 
@@ -92,6 +93,7 @@ export default class InventoryManager {
                 existingItem.qty += qty;
             }
         } else {
+            console.log("Adding item", item, key, data, qty);
             this.items.push(new InventoryItem(item, qty, parserKey, data));
         }
 

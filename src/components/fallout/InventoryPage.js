@@ -83,9 +83,9 @@ export default function FalloutInventory({ itemsData }) {
                             <ItemsAndCostsComponent
                                 itemsAndCosts={itemsData}
                                 customItems={customItems}
-                                onItemSelect={(item, category) => {
+                                onItemSelect={(item, category, subCategory) => {
                                     const itemName = Object.values(item)[0];
-                                    const itemKey = `${category}-${itemName}`;
+                                    const itemKey = `${itemName}-${subCategory}-${category}`;
                                     inventory.inst.addItem(itemName, itemKey, item);
                                 }}
                                 onCustomItemSelect={() => setShowModal(true)}
@@ -147,7 +147,6 @@ export default function FalloutInventory({ itemsData }) {
                                                                 const itemElement = document.querySelector(`[id="${groupItem.name}"]`);
 
                                                                 if (itemElement) {
-                                                                    console.log(itemElement);
                                                                     itemElement.click();
                                                                 }
                                                             }}
@@ -197,7 +196,6 @@ export default function FalloutInventory({ itemsData }) {
                                                         const itemElement = document.querySelector(`[id="${item.name}"]`);
 
                                                         if (itemElement) {
-                                                            console.log(itemElement);
                                                             itemElement.click();
                                                         }
                                                     }}
