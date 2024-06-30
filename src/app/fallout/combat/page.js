@@ -73,6 +73,7 @@ export default function FalloutCombat() {
                                 ACTION_LIST.map((action, index) => {
                                     let onClick = () => {
                                         if (ready) {
+                                            action = { ...action };
                                             action.apCost = (parseInt(action.apCost) + 2).toString();
                                             action.action = "Ready: " + action.action;
                                             setReady(false);
@@ -208,7 +209,16 @@ export default function FalloutCombat() {
                             const form = event.target;
                             const action = form.action.value;
                             const apCost = form.apCost.value;
-                            TM.inst.addActionToQueue({ action, apCost });
+                            let newAction = {
+                                action,
+                                apCost,
+                            };
+                            if (ready) {
+                                newAction.apCost = (parseInt(newAction.apCost) + 2).toString();
+                                newAction.action = "Ready: " + newAction.action;
+                                setReady(false);
+                            }
+                            TM.inst.addActionToQueue(newAction);
                             setShowModal(false);
                         }}>
                             <Form.Group className="mb-3" controlId="action">

@@ -38,7 +38,6 @@ export class Perk {
                 Object.defineProperty(obj, target, {
                     get: function () {
                         let result = originalMethod();
-                        console.log(result);
                         return fn(result);
                     }
                 });
