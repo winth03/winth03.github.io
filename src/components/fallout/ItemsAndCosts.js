@@ -52,6 +52,7 @@ function ItemsAccordion({ data, depth = 0, onItemSelect, onCustomItemSelect, onC
                   {items.map((item, index) => (
                     <ListGroup.Item
                       key={index}
+                      id={Object.values(item)[0]}
                       action
                       onClick={() => handleItemClick(item, category, category)}
                     >

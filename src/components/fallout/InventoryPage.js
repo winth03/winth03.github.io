@@ -142,7 +142,20 @@ export default function FalloutInventory({ itemsData }) {
                                                     const itemKey = `${item.name}/${groupIndex}`;
                                                     return (
                                                         <tr key={itemKey}>
-                                                            <td>{toTitleCase(groupItem.name)}</td>
+                                                            <td><span onClick={() => {
+                                                                // Open item info modal by finding element with item name
+                                                                const itemElement = document.querySelector(`[id="${groupItem.name}"]`);
+
+                                                                if (itemElement) {
+                                                                    console.log(itemElement);
+                                                                    itemElement.click();
+                                                                }
+                                                            }}
+                                                                style={{
+                                                                    borderBottom: "1px dotted",
+                                                                    cursor: "pointer",
+                                                                }}
+                                                            >{toTitleCase(groupItem.name)}</span></td>
                                                             <td>
                                                                 <nobr>
                                                                     <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(groupItem, itemKey, -1)}>-</Button>&nbsp;
@@ -179,7 +192,21 @@ export default function FalloutInventory({ itemsData }) {
                                                 }));
                                             } else return acc.concat(
                                                 <tr key={item.name}>
-                                                    <td>{toTitleCase(item.name)}</td>
+                                                    <td><span onClick={() => {
+                                                        // Open item info modal by finding element with item name
+                                                        const itemElement = document.querySelector(`[id="${item.name}"]`);
+
+                                                        if (itemElement) {
+                                                            console.log(itemElement);
+                                                            itemElement.click();
+                                                        }
+                                                    }}
+                                                        style={{
+                                                            borderBottom: "1px dotted",
+                                                            cursor: "pointer",
+                                                        }}
+                                                    >{toTitleCase(item.name)}
+                                                    </span></td>
                                                     <td>
                                                         <nobr>
                                                             <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(item, item.name, -1)}>-</Button>&nbsp;
