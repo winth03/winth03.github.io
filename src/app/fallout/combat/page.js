@@ -105,7 +105,7 @@ export default function FalloutCombat() {
                     <Container fluid>
                         <h6>Turn History</h6>
                         <p>Click on Action to remove.</p>
-                        <table>
+                        <Table className="text-center">
                             <thead>
                                 <tr>
                                     <th>Current AP</th>
@@ -122,7 +122,7 @@ export default function FalloutCombat() {
                                     <td><Button variant="danger" onClick={() => TM.inst.reset()}>Reset</Button></td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </Table>
                     </Container>
                     <Accordion activeKey={activeKey}>
                         {
