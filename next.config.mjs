@@ -1,42 +1,18 @@
-import nextPWA from "next-pwa";
+import { PHASE_DEVELOPMENT_SERVER } from "next/constants.js";
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-    /**
-     * Enable static exports for the App Router.
-     *
-     * @see https://nextjs.org/docs/app/building-your-application/deploying/static-exports
-     */
-    output: "export",
+export default async (phase, { defaultConfig }) => {
+    /** @type {import('next').NextConfig} */
+    const nextConfig = {
+        ...defaultConfig,
+        reactStrictMode: true, // Enable React strict mode for improved error handling
+        // crossOrigin: "use-credentials", // Set crossorigin attribute on script and link elements
+    };
 
-    /**
-     * Set base path. This is the slug of your GitHub repository.
-     *
-     * @see https://nextjs.org/docs/app/api-reference/next-config-js/basePath
-     */
-    basePath: "",
+    if (phase !== PHASE_DEVELOPMENT_SERVER) {
+        nextConfig.compiler = {
+            removeConsole: process.env.NODE_ENV !== "development", // Remove console.log in production
+        };
+    }
 
-    /**
-     * Disable server-based image optimization. Next.js does not support
-     * dynamic features with static exports.
-     *
-     * @see https://nextjs.org/docs/app/api-reference/components/image#unoptimized
-     */
-    images: {
-        unoptimized: true,
-    },
-    reactStrictMode: true, // Enable React strict mode for improved error handling
-    swcMinify: true,      // Enable SWC minification for improved performance
-    compiler: {
-        removeConsole: process.env.NODE_ENV !== "development", // Remove console.log in production
-    },
+    return nextConfig;
 };
-
-const withPWA = nextPWA({
-    dest: "public", // Destination directory for the PWA files
-    disable: process.env.NODE_ENV === "development", // Disable PWA in development mode
-    register: true, // Register the PWA service worker
-    skipWaiting: true, // Skip waiting for service worker activation
-});
-
-export default withPWA(nextConfig);

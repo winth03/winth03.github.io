@@ -6,7 +6,8 @@ import WikiPage from '@/components/fallout/WikiPage';
 import Link from 'next/link';
 import { getWikiPage } from '@/app/fallout/utils/wiki'
 
-export default async function Page({ params }) {
+export default async function Page(props) {
+    const params = await props.params;
     const slugPath = params.slug.join('/');
     const dirPath = path.join(process.cwd(), 'public', 'fallout', 'wiki', slugPath);
 

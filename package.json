@@ -3,28 +3,35 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "mdbook watch .\\wikis\\fallout && next dev",
-    "build": "cd .\\wikis\\fallout & mdbook build && cd ..\\..\\ next build",
+    "dev": "next dev --turbopack",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/ws": "^8.5.13",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "lucide-react": "^0.451.0",
-    "next": "14.2.3",
+    "next": "15.0.2",
     "next-pwa": "^5.6.0",
     "papaparse": "^5.4.1",
-    "react": "^18",
-    "react-bootstrap": "^2.10.2",
-    "react-dom": "^18"
+    "react": "19.0.0-rc-02c0e824-20241028",
+    "react-bootstrap": "^2.10.5",
+    "react-dom": "19.0.0-rc-02c0e824-20241028",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "npm:types-react@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
+    "concurrently": "^9.0.1",
     "eslint": "^8",
-    "eslint-config-next": "14.2.3",
+    "eslint-config-next": "15.0.2",
     "typescript": "^5"
+  },
+  "overrides": {
+    "@types/react": "npm:types-react@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
   }
 }
